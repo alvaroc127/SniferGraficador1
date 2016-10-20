@@ -1,5 +1,4 @@
 #include "..\Include\MindrayPacket.h"
-#include<iostream>
 
 MindrayPacket::MindrayPacket() {
 
@@ -35,12 +34,11 @@ int MindrayPacket::carfarSubTram(const std::vector<uint8_t> &datas, int pos) {
 	}else if(su->joinHeader() == "536903685"){
 		pos=su->addData(datas,pos,su->sizePSubtrama()*2);
 		this->tam += (tamar * 2) + su->sizeSub();
-	}else{
-		pos=su->addData(datas,pos,su->sizePSubtrama()); 
-		std::cout << su->dataSize() << std::endl;
-		this->tam += tamar  + su->sizeSub();
 	}
-	std::cout << su->joinHeader() << std::endl;
+	else {
+		pos = su->addData(datas, pos, su->sizePSubtrama());
+		this->tam += tamar + su->sizeSub();
+	}
 	this->subtrmas.push_back(su);
 	return pos;
 };
@@ -57,8 +55,6 @@ int MindrayPacket::clasifyData(const std::vector<uint8_t> &datas  , int pos) {
 		pos=carfarSubTram(datas,pos);
 	} while (this->tam < tma);
 	this->tam = 0;
-	std::cout << "cant subtra ----: "<< this->subtrmas.size() << std::endl;
-	std::cout << "join ----: " << this->subtrmas.at(0)->joinHeader()<< std::endl;
 	return pos;
 };
 

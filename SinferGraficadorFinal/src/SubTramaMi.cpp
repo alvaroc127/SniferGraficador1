@@ -1,6 +1,6 @@
 #include "..\Include\SubTramaMi.h"
 #include <string>
-#include <iostream>
+
 using namespace std;
 
 SubTramaMi::SubTramaMi(const SubTramaMi & sub) {
@@ -74,7 +74,7 @@ Signal SubTramaMi::datTram(Signal & sig)
 {
 	sig.sign1 = this->datas;
 	std::string var=joinHeader();
-	cout << "esto es el valor de var" << var << std::endl;
+
 	if (var == "16842753") {
 		sig.asignarTipo("ECGSig1.txt");
 		sig.tipo = "ECGSig1.txt";
@@ -83,21 +83,27 @@ Signal SubTramaMi::datTram(Signal & sig)
 	}
 	else if (var == "33619969") {
 		sig.asignarTipo("ECGSig2.txt");
+		sig.tipo = "ECGSig2.txt";
 	}
 	else if (var == "117506049") {
 		sig.asignarTipo("ECGSig3.txt");
+		sig.tipo = "ECGSig3.txt";
 	}
 	else if (var == "436240385") {
 		sig.asignarTipo("RESPSign.txt");
+		sig.tipo = "RESPSign.txt";
 	}
 	else if (var == "419495937") {
 		sig.asignarTipo("SPO2Sign.txt");
+		sig.tipo = "SPO2Sign.txt";
 	}
 	else if (var == "520126469") {
 		sig.asignarTipo("ROJASign.txt");
+		sig.tipo = "ROJASign.txt";
 	}
 	else if ( var == "520126469") {
 		sig.asignarTipo("AMARILLASign.txt");
+		sig.tipo = "AMARILLASign.txt";
 	}
 	return sig;
 }

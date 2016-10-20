@@ -1,5 +1,5 @@
 #include "..\Include\SubtRamTemp.h"
-#include <iostream>
+
 
 
 
@@ -62,8 +62,6 @@ int SubtRamTemp::runData(const std::vector<uint8_t> &datas,int pos) {
 }
 
 int SubtRamTemp::loadT1(const std::vector<uint8_t> &datas,int pos) {
-	printf(" valor de hex %x ", datas.at(pos));
-	printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->T1 = (int)sal;
 	if (this->T1>32768) {
@@ -77,11 +75,8 @@ int SubtRamTemp::loadT1(const std::vector<uint8_t> &datas,int pos) {
 }
 
 int SubtRamTemp::loadT2(const std::vector<uint8_t> &datas, int pos) {
-	printf(" valor de hex %x ", datas.at(pos));
-	printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->T2 = (int)sal;
-	std::cout << "esto vale impedancia " << T2 << std::endl;
 	if (this->T2>32768) {
 		T2 = T2 - 65536;
 		T2 = T2 / 100;

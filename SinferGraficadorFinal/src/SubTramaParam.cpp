@@ -5,7 +5,7 @@
 #include "..\Include\SubTramaImpedancia.h"
 #include "..\Include\SubtRamTemp.h"
 #include "..\Include\SubTramSpo2.h"
-#include <iostream>
+
 
 
 
@@ -81,7 +81,6 @@ int SubTramaParam::sizePSubtrama() {
 
 
 int SubTramaParam::seleccionMetod(int cod) {
-	std::cout << cod << std::endl;
 	int tip = 0;
 	if (cod ==65541) {
 		tip=0;

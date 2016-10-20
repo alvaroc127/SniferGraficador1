@@ -1,5 +1,4 @@
 #include "..\Include\SubTramaAlarma.h"
-#include <iostream>
 
 
 SubTramaAlarma::SubTramaAlarma()
@@ -32,17 +31,13 @@ void SubTramaAlarma::cargarMensaje(const std::vector<uint8_t> &datas, int pos, i
 		if (cont<getTam()) {
 			mens += (char)datas.at(pos++);
 			printf(" tamaño hex %x",this->tam[0]);
-			printf("%x\n",this->tam[1]);
-			std::cout << "mensaje -*/*-" << mens << std::endl;
-			std::cout << "el tamaño es" << getTam() << " cont es " << cont << std::endl;
+			printf("%x\n", this->tam[1]);
 			cont++;
 		}
 		else  if(cont>=getTam() && getCant()>1){
 			if (cont == getTam()) {
 				pos=loadTam(datas, pos);
 				this->mensajes.push_back(mens);
-				std::cout << "mensaje /**/*" << mens << std::endl;
-				std::cout << "el tamaño total" << tam << " i es " << i << std::endl;
 				mens.clear();
 				cont = 0;
 			}

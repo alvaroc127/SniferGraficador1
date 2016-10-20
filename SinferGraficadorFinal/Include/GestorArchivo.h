@@ -158,6 +158,10 @@ public:
 	Signal getSignal();
 
 
+	int sizeFile();
+
+	void Delete();
+
 };
 
 

@@ -1,5 +1,5 @@
 #include "..\Include\MindrayAlarma.h"
-#include <iostream>
+
 
 
 MindrayAlarma::MindrayAlarma(const MindrayAlarma &a) {
@@ -27,8 +27,6 @@ int MindrayAlarma::carfarSubTram(const std::vector<uint8_t> &datas,int pos) {
 	SubTramaAlarma *sub=new SubTramaAlarma;
 	pos = sub->loadHead(datas, pos);
 	tama = sub->sizePSubtrama();
-	std::cout << "uso " << sub->joinHeader()<<"tamanio "<<tama<< std::endl;
-	std::cout << "tam " << this->tam << "tamanio " << tama << std::endl;
 	if (sub->joinHeader() == "10190000" || sub->joinHeader() == "10790000") {
 		pos = sub->loadCant(datas, pos);
 		//printf("el valor actual en datas es %X\n", datas.at(pos));
@@ -50,7 +48,6 @@ int MindrayAlarma::carfarSubTram(const std::vector<uint8_t> &datas,int pos) {
 		pos = sub->addData(datas, pos, tama);
 		//printf("el valor actual en datas es %X\n", datas.at(pos));
 		//printf("y el siguiente %X\n", datas.at(pos + 1));
-		std::cout << "tam" << tam << std::endl;
 		this->tam+= tama + sub->sizeSub();
 	}
 	subtra.push_back(sub);

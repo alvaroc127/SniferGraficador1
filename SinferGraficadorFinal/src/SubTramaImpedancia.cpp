@@ -1,5 +1,5 @@
 #include "..\Include\SubTramaImpedancia.h"
-#include <iostream>
+
 
 
 SubTramaImpedancia::SubTramaImpedancia(uint8_t start[],uint8_t vodi[],uint8_t size[]):SubTramaParam(start,vodi,size) {
@@ -35,7 +35,6 @@ void SubTramaImpedancia::clasficaSubTra(const std::vector<uint8_t> &datas, int p
 	bool ban = true;
 	for (int j = pos; j < datas.size() && pos + 3 < datas.size() && ban == true; j++) {
 		pos = runData(datas, pos);
-		std::cout << "valor de sal/*/*/ " << val << std::endl;
 		if (this->val == 1114117) {
 			pos = loadImpedancia(datas, pos);
 		}
@@ -53,11 +52,8 @@ int SubTramaImpedancia::runData(const std::vector<uint8_t> &datas, int pos) {
 }
 
 int SubTramaImpedancia::loadImpedancia(const std::vector<uint8_t> &datas,int pos) {
-	printf(" valor de hex %x ", datas.at(pos));
-	printf(" %x\n", datas.at(pos+1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->impedanciaX2 = (int)sal;
-	std::cout << "esto vale impedancia " << impedanciaX2 << std::endl;
 	return ++pos;
 }
 

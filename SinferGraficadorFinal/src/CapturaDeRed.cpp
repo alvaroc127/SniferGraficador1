@@ -37,7 +37,7 @@ string CapturaDeRed::clasificarPacket(const std::vector<uint8_t> & carga, int po
 		}
 		cab = ss.str();
 		ss.clear();
-		cout.clear();
+		//cout.clear();
 	}
 	return cab;
 }
@@ -65,7 +65,7 @@ void CapturaDeRed::CapturarPacket1() {
 					}
 				}
 			} while ( pos < raw.payload().size() &&true== this->wait && true==band);
-			cout << "salio" << endl;
+			//cout << "salio" << endl;
 			pos = 0;
 			wait = true;
 			band = true; 
@@ -73,7 +73,7 @@ void CapturaDeRed::CapturarPacket1() {
 		}
 		catch (pdu_not_found) {
 			//cout << "problema no encontrado" << endl;
-			cout.clear();
+			//cout.clear();
 			delete(pack);
 		}
 	} while (true);
@@ -145,7 +145,7 @@ void CapturaDeRed::startCapture() {
 
 
 int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const std::vector<uint8_t>  & datas , int pos) {
-	cout << "esto es head" << head<<endl;
+	//cout << "esto es head" << head<<endl;
 	if (head == "1509d00") {
 		if(this->dat_time.empty()==false){
 		MindrayPacket mp;
@@ -153,8 +153,8 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 		mp.setDtaTime(this->dat_time);
 		HeaderTram he = mp.getHead();
 		he.loadHead(datas, pos);
-		cout << "la ip es" << mp.getFuente() << "con cabeza" << head << endl; cout<< "el paquete llego a las" << mp.getDataTime() << " el tamanio " << he.sizePacket() << endl;
-		cout << "restante trama" << datas.size() - pos << endl;
+		//cout << "la ip es" << mp.getFuente() << "con cabeza" << head << endl; cout<< "el paquete llego a las" << mp.getDataTime() << " el tamanio " << he.sizePacket() << endl;
+		//cout << "restante trama" << datas.size() - pos << endl;
 		if (he.sizePacket() <= (datas.size() - pos) ) {
 			mp.setHead(he);
 			pos=mp.clasifyData(datas, pos);
@@ -187,7 +187,7 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 		HeaderTram he = mp1.getHead();
 		//cout << "pos head"<< pos << endl;
 		he.loadHead(datas, pos);
-		cout << "en parametros la ip es" << mp1.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << mp1.getDataTime() << " el tamanio " << he.sizePacket() << endl;
+		//cout << "en parametros la ip es" << mp1.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << mp1.getDataTime() << " el tamanio " << he.sizePacket() << endl;
 		if (datas.size() >= he.sizePacket()) {
 			mp1.setHead(he);
 			pos=mp1.clasifyData(datas, pos);
@@ -221,12 +221,12 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 		//cout << mp.getDataTime() << endl;
 		HeaderTram he = ma.getHead();
 		he.loadHead(datas, pos);
-		cout << "la ip es" << ma.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << ma.getDataTime() << " el tamanio " << he.sizePacket() << endl;
+		//cout << "la ip es" << ma.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << ma.getDataTime() << " el tamanio " << he.sizePacket() << endl;
 		if (datas.size() >= he.sizePacket()) {
 		ma.setHead(he);
 		pos=ma.clasifyData(datas, pos);
 		if (guardarMA(ma)) {
-			cout << "la ip es" << ma.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << ma.getDataTime() << " el tamanio " << he.sizePacket() << endl;
+			//cout << "la ip es" << ma.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << ma.getDataTime() << " el tamanio " << he.sizePacket() << endl;
 			ma.~MindrayAlarma();
 			}
 		}
@@ -309,7 +309,7 @@ int CapturaDeRed::searchHead(const vector<uint8_t> &datas, int pos) {
 		posib.str("");
 		//printf("esto es el valor %x",var);
 		//printf("%x\n", var2);
-		cout<<hed<<endl;
+		//cout<<hed<<endl;
 		if (hed == "105009d0000") {
 			ban = true;
 			//cout << "esto es cabeza1-*-*"<< hed<< endl;

@@ -1,5 +1,4 @@
 #include "..\Include\SubTramaArt_AP.h"
-#include <iostream>
 
 SubTramaArt_AP::SubTramaArt_AP(uint8_t start[], uint8_t vodi[], uint8_t size[]):SubTramaParam(start,vodi,size) {
 
@@ -73,7 +72,6 @@ void SubTramaArt_AP::clasficaSubTra(const std::vector<uint8_t> &datas,int pos) {
 
 int SubTramaArt_AP::runData(const std::vector<uint8_t> &datas,int pos) {
 	uint32_t sal = (datas.at(pos++) << 16) | (datas.at(pos++) << 8) | (datas.at(pos++));
-	std::cout << "valor de sal/*/*/ " << val << std::endl;
 	this->val = (int)sal;
 	return pos;
 }
@@ -83,7 +81,6 @@ int SubTramaArt_AP::loadHight(const std::vector<uint8_t> &datas,int pos) {
 	printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->alto = (int)sal;
-	std::cout << "esto vale impedancia " << alto << std::endl;
 	return ++pos;
 }
 
@@ -101,7 +98,6 @@ int SubTramaArt_AP::loadParentesis(const std::vector<uint8_t> &datas,int pos) {
 	printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->parentesis = (int)sal;
-	std::cout << "esto vale impedancia " << parentesis << std::endl;
 	return ++pos;
 }
 

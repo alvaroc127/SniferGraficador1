@@ -98,11 +98,18 @@ bool GestorArchivo::crearArchivo(const std::string  &ip) {
 	
 
 	//faltan archivos por crear
-	this->outSA.open(direcc1, std::ios::app | std::ios::_Nocreate);
-	this->outSA << ip;
-	this->outSA << std::endl;
+	
+	if (sizeFile() == 0) {
+		this->outSA.open(direcc1, std::ios::app | std::ios::_Nocreate);
+		this->outSA << ip;
+	}
+	else {
+		this->outSA.open(direcc1, std::ios::app | std::ios::_Nocreate);
+		this->outSA << std::endl;
+		this->outSA << ip;
+		std::cout << "escribiendo" << std::endl;
+	}
 	this->outSA.close();
-
 	return resul;
 }
 
@@ -126,10 +133,10 @@ Signal GestorArchivo::getSignal() {
 */
 
 void GestorArchivo::EscribirDatSig(const Signal & sig, MindrayPacket & mp) {
-	std::ofstream outArc(direcc+"\\"+mp.getFuente()+"\\"+sig.tipo, std::ios::app | std::ios::_Nocreate);
+	std::ofstream outArc(direcc+"\\"+mp.getFuente()+"\\" + sig.tipo, std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + mp.getFuente() +"\\" + sig.tipo << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + mp.getFuente() +"\\1" + sig.tipo << std::endl;
+		//getchar();
 	}
 	for (int i = 0; i < sig.sign1.size();i++) {
 		outArc <<sig.sign1.at(i);
@@ -143,8 +150,8 @@ void GestorArchivo::EscribirDatSig(const Signal & sig, MindrayPacket & mp) {
 void GestorArchivo::EscribirDatImpedancia(const Impedancia & imp , MindrayParametros & mpp) {
 	std::ofstream outArc(direcc + "\\" + mpp.getFuente() + "\\" + imp.tipo, std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + mpp.getFuente() + "\\" + imp.tipo << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + mpp.getFuente() + "\\2" + imp.tipo << std::endl;
+	//	getchar();
 	}
 	outArc << imp.impedanciaX2;
 	outArc << std::endl;
@@ -156,8 +163,8 @@ void GestorArchivo::EscribirDatImpedancia(const Impedancia & imp , MindrayParame
 void GestorArchivo::EscribirDatECG(const ECG & ecg ,MindrayParametros & mpp) {
 	std::ofstream outArc(direcc + "\\" + mpp.getFuente() + "\\" + ecg.tipo, std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + mpp.getFuente() + "\\" + ecg.tipo << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + mpp.getFuente() + "\\3" + ecg.tipo << std::endl;
+		//getchar();
 	}
 	outArc << ecg.aVF;
 	outArc << " ";
@@ -186,9 +193,8 @@ void GestorArchivo::EscribirDatECG(const ECG & ecg ,MindrayParametros & mpp) {
 void GestorArchivo::EscribirDatArt(const Art &art, MindrayParametros & mpp) {
 	std::ofstream outArc(direcc + "\\" + mpp.getFuente() + "\\" + art.tipo, std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + mpp
-			.getFuente() + "\\" + art.tipo << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + mpp.getFuente() + "\\4" + art.tipo << std::endl;
+		//getchar();
 	}
 
 
@@ -201,8 +207,8 @@ void GestorArchivo::EscribirDatArt(const Art &art, MindrayParametros & mpp) {
 void GestorArchivo::EscribirDatSpo2(const SPO2 &spo2, MindrayParametros &mpp) {
 	std::ofstream outArc(direcc + "\\" + mpp.getFuente() + "\\" + spo2.tipo, std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + mpp.getFuente() + "\\" + spo2.tipo << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + mpp.getFuente() + "\\5" + spo2.tipo << std::endl;
+		//getchar();
 	}
 	outArc << spo2.frecuencia;
 	outArc << " ";
@@ -216,8 +222,8 @@ void GestorArchivo::EscribirDatSpo2(const SPO2 &spo2, MindrayParametros &mpp) {
 void  GestorArchivo::EscribirDatAp(const Ap & ap, MindrayParametros &mpp) {
 	std::ofstream outArc(direcc + "\\" + mpp.getFuente() + "\\" + ap.tipo, std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + mpp.getFuente() + "\\" + ap.tipo << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + mpp.getFuente() + "\\6" + ap.tipo << std::endl;
+		//getchar();
 	}
 	
 	outArc << ap.alto;
@@ -234,8 +240,8 @@ void  GestorArchivo::EscribirDatAp(const Ap & ap, MindrayParametros &mpp) {
 void GestorArchivo::EscribirDatTemp(const Temp & tem, MindrayParametros & mpp) {
 	std::ofstream outArc(direcc + "\\" + mpp.getFuente() + "\\" + tem.tipo, std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + mpp.getFuente() + "\\" + tem.tipo << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + mpp.getFuente() + "\\7" + tem.tipo << std::endl;
+		//getchar();
 	}
 	outArc << tem.T1;
 	outArc << " ";
@@ -250,12 +256,27 @@ void GestorArchivo::EscribirDatTemp(const Temp & tem, MindrayParametros & mpp) {
 void GestorArchivo::EscribirDatALarma(std::vector<std::string> mensajes, MindrayAlarma &ma) {
 	std::ofstream outArc(direcc + "\\" + ma.getFuente() + "\\" + "AlARMAMEN.txt" , std::ios::app | std::ios::_Nocreate);
 	if (!outArc) {
-		std::cout << direcc + "\\" + ma.getFuente() + "\\" + "AlARMAMEN.txt" << std::endl;
-		getchar();
+		std::cout << direcc + "\\" + ma.getFuente() + "\\8"  << std::endl;
+		//getchar();
 	}
 	for (int i = 0; i < mensajes.size() ; i++) {
 		outArc << mensajes.at(i);
 		outArc << std::endl;
 	}
 	outArc.close();
+}
+
+int GestorArchivo::sizeFile() {
+	int tam = 0;
+	this->inEN.open(direcc1, std::ifstream::in);
+	if (!inEN.is_open()) {
+
+	}
+	else {
+		tam = int(inEN.tellg());
+		inEN.seekg(0, std::ios::end);
+		tam = (int(inEN.tellg()) - tam);
+	}
+	inEN.close();
+	return tam;
 }

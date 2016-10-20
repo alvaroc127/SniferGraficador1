@@ -1,5 +1,4 @@
 #include "..\Include\SubTramSpo2.h"
-#include <iostream>
 
 
 SubTramSpo2::SubTramSpo2( SubTramaParam * sub) :SubTramaParam(sub) {
@@ -49,11 +48,8 @@ void SubTramSpo2::clasficaSubTra(const std::vector<uint8_t> &datas, int pos) {
 
 
 int SubTramSpo2::loadDato1(const std::vector<uint8_t> &datas,int pos) {
-	printf(" valor de hex %x ", datas.at(pos));
-	printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->dato1 = (int)sal;
-	std::cout << "esto vale impedancia " << dato1 << std::endl;
 	if (this->dato1>32768) {
 		dato1 =dato1 - 65536;
 		dato1 = dato1 / 100;

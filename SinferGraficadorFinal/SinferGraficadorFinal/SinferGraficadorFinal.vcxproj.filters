@@ -72,6 +72,9 @@
     <ClInclude Include="..\Include\Trama.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\Include\Coneccion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\CapturaDeRed.cpp">
@@ -129,6 +132,9 @@
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\Trama.cpp">
+      <Filter>Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Coneccion.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>

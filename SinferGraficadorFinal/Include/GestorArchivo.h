@@ -18,16 +18,6 @@ static const std::string direcc1 = "C:\\ArchivosSignal\\IP.txt";
 class GestorArchivo
 {
 private :
-	/*
-	Impedancia  imp;
-	ECG ecg;
-	Art art;
-	SPO2 spo2;
-	Ap ap;
-	Temp tem;
-	Signal sig;
-	std::vector<std::string>mensajes;
-	*/
 	std::ofstream outSA;
 	std::ifstream inEN;
 

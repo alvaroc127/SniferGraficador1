@@ -110,6 +110,50 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Include\CapturaDeRed.h" />
+    <ClInclude Include="Include\Coneccion.h" />
+    <ClInclude Include="Include\GestorArchivo.h" />
+    <ClInclude Include="Include\Header.h" />
+    <ClInclude Include="Include\HeaderTram.h" />
+    <ClInclude Include="Include\MindrayAlarma.h" />
+    <ClInclude Include="Include\MindrayPacket.h" />
+    <ClInclude Include="Include\MindrayParametros.h" />
+    <ClInclude Include="Include\Struct.h" />
+    <ClInclude Include="Include\SubTrama.h" />
+    <ClInclude Include="Include\SubTramaAlarma.h" />
+    <ClInclude Include="Include\SubTramaArt_AP.h" />
+    <ClInclude Include="Include\SubTramaECG.h" />
+    <ClInclude Include="Include\SubTramaImpedancia.h" />
+    <ClInclude Include="Include\SubTramaMetod.h" />
+    <ClInclude Include="Include\SubTramaMi.h" />
+    <ClInclude Include="Include\SubTramaParam.h" />
+    <ClInclude Include="Include\SubTramSpo2.h" />
+    <ClInclude Include="Include\SubtRamTemp.h" />
+    <ClInclude Include="Include\Trama.h" />
+    <ClInclude Include="src\ofApp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\CapturaDeRed.cpp" />
+    <ClCompile Include="src\Coneccion.cpp" />
+    <ClCompile Include="src\GestorArchivo.cpp" />
+    <ClCompile Include="src\Header.cpp" />
+    <ClCompile Include="src\HeaderTram.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MindrayAlarma.cpp" />
+    <ClCompile Include="src\MindrayPacket.cpp" />
+    <ClCompile Include="src\MindrayParametros.cpp" />
+    <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="src\SubTrama.cpp" />
+    <ClCompile Include="src\SubTramaAlarma.cpp" />
+    <ClCompile Include="src\SubTramaArt_AP.cpp" />
+    <ClCompile Include="src\SubTramaECG.cpp" />
+    <ClCompile Include="src\SubTramaImpedancia.cpp" />
+    <ClCompile Include="src\SubTramaMetod.cpp" />
+    <ClCompile Include="src\SubTramaMi.cpp" />
+    <ClCompile Include="src\SubTramaParam.cpp" />
+    <ClCompile Include="src\SubTramSpo2.cpp" />
+    <ClCompile Include="src\SubtRamTemp.cpp" />
+    <ClCompile Include="src\Trama.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

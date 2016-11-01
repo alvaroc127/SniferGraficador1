@@ -218,3 +218,39 @@ ECG SubTramaECG::datTram(ECG & tip) {
 	 tip.tipo = "ECGPARAM.txt";
 	 return tip;
 }
+
+double SubTramaECG::getAVF() {
+	return this->aVF;
+}
+
+double SubTramaECG::getAVL() {
+	return this->aVL;
+}
+
+double SubTramaECG::getAVR() {
+	return this->aVR;
+}
+
+double SubTramaECG::getCVP() {
+	return this->CVP;
+}
+
+double SubTramaECG::getFrecuen() {
+	return this->frecuencia;
+}
+
+double SubTramaECG::getI() {
+	return this->I;
+}
+
+double SubTramaECG::getII() {
+	return this->II;
+}
+double SubTramaECG::getV() {
+		return V;
+}
+
+double SubTramaECG::getIII() {
+	return this->III;
+}
+

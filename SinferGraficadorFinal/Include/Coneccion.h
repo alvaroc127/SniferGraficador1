@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string>
 #include <afxdb.h>
+#include "Ecg.h"
 #include "MindrayPacket.h"
 #include "MindrayAlarma.h"
 #include "MindrayParametros.h"
@@ -17,7 +18,9 @@ class Conection
 {
 private:
 	CDatabase *con;
-	CString insert;
+	Ecg *ecg;
+	
+	
 public:	
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Conection"/> class.

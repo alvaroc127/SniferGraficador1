@@ -18,6 +18,7 @@ void Conection::conectar() {
 	con = new CDatabase();
 	TRY{
 	con->OpenEx(_T("DSN=FUCS;UID=pasante1;PSW=sebastian1"),CDatabase::forceOdbcDialog);
+	
 	}CATCH(CDBException, e) {
 		AfxMessageBox(e->m_strError);
 		return;
@@ -29,12 +30,10 @@ CDatabase * Conection::getConection() {
 	return this->con;
 }
 
-CString Conection::getInsert() {
-	return this->insert;
-}
+
 
 bool Conection::insertRegisMP(const MindrayPacket & mp) {
-
+	
 
 	return true;
 }

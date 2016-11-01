@@ -145,9 +145,70 @@ public:
 	/// <param name="">The .</param>
 	/// <returns></returns>
 	int loadIII(const std::vector<uint8_t> &, int);
+	
+	/// <summary>
+	/// Dats the tram.
+	/// </summary>
+	/// <param name="">The .</param>
+	/// <returns></returns>
+	ECG datTram(ECG &);
+	
+	/// <summary>
+	/// Gets the avf.
+	/// </summary>
+	/// <returns></returns>
+	double getAVF();
+	
+	/// <summary>
+	/// Gets the avl.
+	/// </summary>
+	/// <returns></returns>
+	double getAVL();
+	
+	/// <summary>
+	/// Gets the avr.
+	/// </summary>
+	/// <returns></returns>
+	double getAVR();
 
+	
+	/// <summary>
+	/// Gets the CVP.
+	/// </summary>
+	/// <returns></returns>
+	double getCVP();
+	
+	/// <summary>
+	/// Gets the frecuen.
+	/// </summary>
+	/// <returns></returns>
+	double getFrecuen();
+	
+	/// <summary>
+	/// Gets the i.
+	/// </summary>
+	/// <returns></returns>
+	double getI();
 
-	 ECG datTram(ECG &);
+	
+	/// <summary>
+	/// Gets the v.
+	/// </summary>
+	/// <returns></returns>
+	double getV();
+	
+	/// <summary>
+	/// Gets the ii.
+	/// </summary>
+	/// <returns></returns>
+	double getII();
+	
+	/// <summary>
+	/// Gets the iii.
+	/// </summary>
+	/// <returns></returns>
+	double getIII();
+
 };
 
 

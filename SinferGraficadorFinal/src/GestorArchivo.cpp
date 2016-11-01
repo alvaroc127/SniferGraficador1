@@ -107,7 +107,7 @@ bool GestorArchivo::crearArchivo(const std::string  &ip) {
 		this->outSA.open(direcc1, std::ios::app | std::ios::_Nocreate);
 		this->outSA << std::endl;
 		this->outSA << ip;
-		std::cout << "escribiendo" << std::endl;
+		//std::cout << "escribiendo" << std::endl;
 	}
 	this->outSA.close();
 	return resul;

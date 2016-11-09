@@ -83,9 +83,35 @@ public:
 	/// <param name="">The .</param>
 	/// <returns></returns>
 	int loadTD(const std::vector<uint8_t> &, int);
-
-
+	
+	/// <summary>
+	/// Dats the tram.
+	/// </summary>
+	/// <param name="">The .</param>
+	/// <returns></returns>
 	Temp datTram(Temp &);
+
+	
+	/// <summary>
+	/// Gets the t1.
+	/// </summary>
+	/// <returns></returns>
+	float getT1();
+	
+	/// <summary>
+	/// Gets the t2.
+	/// </summary>
+	/// <returns></returns>
+	float getT2();
+
+	
+	/// <summary>
+	/// Gets the td.
+	/// </summary>
+	/// <returns></returns>
+	float getTD();
+
+
 	
 
 };

@@ -44,6 +44,7 @@ string CapturaDeRed::clasificarPacket(const std::vector<uint8_t> & carga, int po
 
 void CapturaDeRed::CapturarPacket1() {
 	Tins::Sniffer snfi(configCapture().name(), configSniffer());
+	iniciarBaseDat();
 	int pos =0,posAux = 0;
 	bool band = true;
 	do {
@@ -146,6 +147,9 @@ void CapturaDeRed::startCapture() {
 
 int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const std::vector<uint8_t>  & datas , int pos) {
 	//cout << "esto es head" << head<<endl;
+	if (co.checkStore()==true) {
+		co.inserTDatBas();
+	}
 	if (head == "1509d00") {
 		if(this->dat_time.empty()==false){
 		MindrayPacket mp;
@@ -159,18 +163,16 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			mp.setHead(he);
 			pos=mp.clasifyData(datas, pos);
 			this->wait = true;
-			if (guardarMP(mp)) {
-				mp.~MindrayPacket();
-				he.~HeaderTram();
-			}
+			co.insertRegisMP(mp);
+			//if (guardarMP(mp)) {
+
+			//}
 		}
 		else {
 			setVector(datas);
 			this->mp = mp;
 			this->wait = false;
 			posG = pos;
-			mp.~MindrayPacket();
-			he.~HeaderTram();
 			}
 		}
 		else {
@@ -192,17 +194,16 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			mp1.setHead(he);
 			pos=mp1.clasifyData(datas, pos);
 			this->wait = true;
-			if (guardarMPP(mp1)) {
-				mp1.~MindrayParametros();
-			}
+			co.inserRegisMPP(mp1);
+			//if (guardarMPP(mp1)) {
+
+			//}
 		}
 		else {
 			setVector(datas);
 			this->mpp = mp1;
 			this->wait = false;
 			posG = pos;
-			mp1.~MindrayParametros();
-			he.~HeaderTram();
 			//guarda el paqutee
 			// cargar datos 
 		}
@@ -225,18 +226,16 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 		if (datas.size() >= he.sizePacket()) {
 		ma.setHead(he);
 		pos=ma.clasifyData(datas, pos);
-		if (guardarMA(ma)) {
+		co.insertRegisMA(ma);
+		//if (guardarMA(ma)) {
 			//cout << "la ip es" << ma.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << ma.getDataTime() << " el tamanio " << he.sizePacket() << endl;
-			ma.~MindrayAlarma();
-			}
+			//}
 		}
 		else {
 			setVector(datas);
 			this->ma = ma;
 			this->wait = false;
 			posG = pos;
-			ma.~MindrayAlarma();
-			he.~HeaderTram();
 		}
 	}
 	else {
@@ -244,19 +243,22 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			datWait.insert(std::end(datWait), std::begin(datas), std::end(datas));
 			if (this->mp.getFuente().empty() == false) {
 				pos = mp.clasifyData(datWait, posG);
-				guardarMP(mp);
+				//guardarMP(mp);
+				co.insertRegisMP(mp);
 				mp.getFuente().clear();
 				datWait.clear();
 			}
 			else if (this->ma.getFuente().empty() == false) {
 				ma.clasifyData(datWait, posG);
-				guardarMA(ma);
+				//guardarMA(ma);
+				co.insertRegisMA(ma);
 				ma.getFuente().clear();
 				datWait.clear();
 			}
 			else if (this->mpp.getFuente().empty() == false) {
 				mpp.clasifyData(datWait, posG);
-				guardarMPP(mpp);
+				//guardarMPP(mpp);
+				co.inserRegisMPP(mpp);
 				mpp.getFuente().clear();
 				datWait.clear();
 			}
@@ -268,6 +270,7 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 
 		}
 	}
+	
 	return pos;
 }
 
@@ -486,3 +489,6 @@ bool CapturaDeRed::guardarMA(MindrayAlarma &ma) {
 }
 
 
+void CapturaDeRed::iniciarBaseDat() {
+	co.conectar();
+}

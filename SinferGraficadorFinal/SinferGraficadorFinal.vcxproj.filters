@@ -9,15 +9,18 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="DataBase">
+      <UniqueIdentifier>{17b2caec-fae8-41e9-827f-f4e7cb3a8dd4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataBase\Include">
+      <UniqueIdentifier>{47e3b2d6-8616-4846-b536-66aaa5e89ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataBase\src">
+      <UniqueIdentifier>{6e3d05b9-c20c-49bc-b382-f2080daf24b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CapturaDeRed.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Coneccion.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Ecg.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
     <ClCompile Include="src\GestorArchivo.cpp">
@@ -74,15 +77,33 @@
     <ClCompile Include="src\Trama.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Coneccion.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ecg.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Monitor1.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AlarmaBD.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\frec_respiratoriDB.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Include\TemperaturaDB.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HabitacionDB.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Senal_Roja_Amarilla.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\CapturaDeRed.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Coneccion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Include\Ecg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\GestorArchivo.h">
@@ -137,6 +158,36 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\Trama.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Coneccion.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Ecg.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Monitor1.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\AlarmaBD.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\frec_respiratoriDB.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\TemperaturaDB.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\HabitacionDB.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Senal_Roja_Amarilla.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\StructDB.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\8.1\Include\um\Windows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -127,3 +127,15 @@ Art SubTramaArt_AP::datTram1(Art & tip2) {
 	tip2.tipo = "AP.txt";
 	return tip2;
 }
+
+int SubTramaArt_AP::getAlto() {
+	return this->alto;
+}
+
+int SubTramaArt_AP::getBajo() {
+	return this->bajo;
+}
+
+int SubTramaArt_AP::getParentesis() {
+	return this->parentesis;
+}

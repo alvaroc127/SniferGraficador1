@@ -81,6 +81,7 @@ public:
 	Impedancia datTram(Impedancia &);
 
 
+	int getimpe();
 
 };
 #endif

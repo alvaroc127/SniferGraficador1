@@ -113,3 +113,17 @@ Temp SubtRamTemp::datTram(Temp &tip) {
 	tip.tipo="TEMPPARAM.txt";
 	return tip;
 }
+
+
+float SubtRamTemp::getT1() {
+	return T1;
+}
+
+
+float SubtRamTemp::getT2(){
+	return T2;
+}
+
+float SubtRamTemp::getTD() {
+	return TD;
+}

@@ -58,7 +58,7 @@ public:
 	/// </summary>
 	/// <param name="">The .</param>
 	/// <returns></returns>
-	int getTipo(int) const;
+	int getTipo() const;
 	
 	/// <summary>
 	/// Gets the fuente.

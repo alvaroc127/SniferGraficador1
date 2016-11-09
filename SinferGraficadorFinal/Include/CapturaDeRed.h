@@ -15,6 +15,7 @@
 #include "SubtRamTemp.h"
 #include "SubTramSpo2.h"
 #include "GestorArchivo.h"
+#include "Coneccion.h"
 
 
 
@@ -32,6 +33,7 @@ typedef struct MyData {
 
 
 
+
 class CapturaDeRed
 {
 	
@@ -44,6 +46,7 @@ private:
 	bool wait =true;
 	int posG=0;
 	GestorArchivo ga;
+	Conection co;
 
 public:
 	/// <summary>
@@ -136,6 +139,11 @@ public:
 	/// Guardars the ma.
 	/// </summary>
 	bool guardarMA(MindrayAlarma &);
+	
+	/// <summary>
+	/// Iniciars the base dat.
+	/// </summary>
+	void iniciarBaseDat();
 };
 
 

@@ -68,3 +68,7 @@ Impedancia SubTramaImpedancia::datTram(Impedancia &tip) {
 	tip.tipo = "IMPEPARAM.txt";
 	return tip;
 }
+
+int SubTramaImpedancia::getimpe() {
+	return this->impedanciaX2;
+}

@@ -113,8 +113,24 @@ public:
 	 /// <param name="t">The t.</param>
 	 /// <returns></returns>
 	 Art datTram1(Art &);
-	
-
+		 
+	 /// <summary>
+	 /// Gets the alto.
+	 /// </summary>
+	 /// <returns></returns>
+	 int getAlto();
+	 
+	 /// <summary>
+	 /// Gets the bajo.
+	 /// </summary>
+	 /// <returns></returns>
+	 int getBajo();
+	 
+	 /// <summary>
+	 /// Gets the parentesis.
+	 /// </summary>
+	 /// <returns></returns>
+	 int getParentesis();
 
 };
 

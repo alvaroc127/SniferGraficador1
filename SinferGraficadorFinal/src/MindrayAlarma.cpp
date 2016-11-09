@@ -74,8 +74,8 @@ int MindrayAlarma::clasifyData(const std::vector<uint8_t> &datas,int pos) {
 	return pos;
 }
 
-int MindrayAlarma::getTipo(int tip) const {
-	return tip + 2;
+int MindrayAlarma::getTipo() const {
+	return tip;
 }
 
 std::string MindrayAlarma::getFuente() {

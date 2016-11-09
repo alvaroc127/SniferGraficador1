@@ -126,16 +126,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Include\TemperaturaDB.cpp" />
+    <ClCompile Include="src\AlarmaBD.cpp" />
     <ClCompile Include="src\CapturaDeRed.cpp" />
     <ClCompile Include="src\Coneccion.cpp" />
     <ClCompile Include="src\Ecg.cpp" />
+    <ClCompile Include="src\frec_respiratoriDB.cpp" />
     <ClCompile Include="src\GestorArchivo.cpp" />
+    <ClCompile Include="src\HabitacionDB.cpp" />
     <ClCompile Include="src\Header.cpp" />
     <ClCompile Include="src\HeaderTram.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\MindrayAlarma.cpp" />
     <ClCompile Include="src\MindrayPacket.cpp" />
     <ClCompile Include="src\MindrayParametros.cpp" />
+    <ClCompile Include="src\Monitor1.cpp" />
+    <ClCompile Include="src\Senal_Roja_Amarilla.cpp" />
     <ClCompile Include="src\SubTrama.cpp" />
     <ClCompile Include="src\SubTramaAlarma.cpp" />
     <ClCompile Include="src\SubTramaArt_AP.cpp" />
@@ -149,16 +155,23 @@
     <ClCompile Include="src\Trama.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\8.1\Include\um\Windows.h" />
+    <ClInclude Include="Include\AlarmaBD.h" />
     <ClInclude Include="Include\CapturaDeRed.h" />
     <ClInclude Include="Include\Coneccion.h" />
     <ClInclude Include="Include\Ecg.h" />
+    <ClInclude Include="Include\frec_respiratoriDB.h" />
     <ClInclude Include="Include\GestorArchivo.h" />
+    <ClInclude Include="Include\HabitacionDB.h" />
     <ClInclude Include="Include\Header.h" />
     <ClInclude Include="Include\HeaderTram.h" />
     <ClInclude Include="Include\MindrayAlarma.h" />
     <ClInclude Include="Include\MindrayPacket.h" />
     <ClInclude Include="Include\MindrayParametros.h" />
+    <ClInclude Include="Include\Monitor1.h" />
+    <ClInclude Include="Include\Senal_Roja_Amarilla.h" />
     <ClInclude Include="Include\Struct.h" />
+    <ClInclude Include="Include\StructDB.h" />
     <ClInclude Include="Include\SubTrama.h" />
     <ClInclude Include="Include\SubTramaAlarma.h" />
     <ClInclude Include="Include\SubTramaArt_AP.h" />
@@ -169,6 +182,7 @@
     <ClInclude Include="Include\SubTramaParam.h" />
     <ClInclude Include="Include\SubTramSpo2.h" />
     <ClInclude Include="Include\SubtRamTemp.h" />
+    <ClInclude Include="Include\TemperaturaDB.h" />
     <ClInclude Include="Include\Trama.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

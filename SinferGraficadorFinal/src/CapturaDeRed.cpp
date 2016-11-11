@@ -7,6 +7,7 @@ using namespace Tins;
 using namespace std;
 
 
+
 /// <summary>
 /// This Method capture packet TCP of network and send from claisify
 /// </summary>
@@ -44,7 +45,6 @@ string CapturaDeRed::clasificarPacket(const std::vector<uint8_t> & carga, int po
 
 void CapturaDeRed::CapturarPacket1() {
 	Tins::Sniffer snfi(configCapture().name(), configSniffer());
-	iniciarBaseDat();
 	int pos =0,posAux = 0;
 	bool band = true;
 	do {
@@ -124,6 +124,7 @@ Tins::NetworkInterface  CapturaDeRed::configCapture() {
 
 
 void CapturaDeRed::startCapture() {
+	co.OpenCo();
 	CapturarPacket1();
 	/*
 	HANDLE hTread;
@@ -147,9 +148,6 @@ void CapturaDeRed::startCapture() {
 
 int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const std::vector<uint8_t>  & datas , int pos) {
 	//cout << "esto es head" << head<<endl;
-	if (co.checkStore()==true) {
-		co.inserTDatBas();
-	}
 	if (head == "1509d00") {
 		if(this->dat_time.empty()==false){
 		MindrayPacket mp;
@@ -181,6 +179,10 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 	}
 	else if (head == "150cc00") {
 		this->dat_time.swap(captDta_time());
+		if (co.checkStore()==true) {
+			co.loadDate_Ip();
+			co.insertaDatTab();
+		}
 		MindrayParametros mp1;
 		mp1.setFuente(ip);
 		//cout<<mp.getFuente()<<endl;
@@ -489,6 +491,3 @@ bool CapturaDeRed::guardarMA(MindrayAlarma &ma) {
 }
 
 
-void CapturaDeRed::iniciarBaseDat() {
-	co.conectar();
-}

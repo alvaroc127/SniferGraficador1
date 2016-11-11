@@ -140,10 +140,7 @@ public:
 	/// </summary>
 	bool guardarMA(MindrayAlarma &);
 	
-	/// <summary>
-	/// Iniciars the base dat.
-	/// </summary>
-	void iniciarBaseDat();
+
 };
 
 

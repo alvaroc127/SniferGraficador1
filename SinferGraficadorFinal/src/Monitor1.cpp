@@ -2,8 +2,8 @@
 
 
 
-Monitor1::Monitor1(CDatabase * db) :   CRecordset(db) {
-	this->numCam = 0;
+Monitor1::Monitor1(odbc::Connection *co) {
+	this->co = co;
 }
 
 Monitor1::Monitor1()
@@ -17,52 +17,35 @@ Monitor1::~Monitor1()
 }
 
 
-CString Monitor1::GetDefaultSQL() {
-		return SQLOpen.c_str();
-}
 
-bool Monitor1::openTabMo() {
-	bool op = true;
-	TRY{
-		op = true;
-	this->Open();
-	}CATCH(CDBException ,e) {
-		op = false;
+void Monitor1::queryMonitor() {
+	odbc::ResultSet *RS;
+	odbc::PreparedStatement *pr;
+	pr=this->co->prepareStatement(this->SQLOpen);
+	RS = pr->executeQuery();
+	while (RS->next()) {
+		this->id=RS->getInt("ID");
+		this->IP=RS->getString("IP");
+		this->date_reg = RS->getTimestamp("FechaRegistro").toString();
+		this->numCam = RS->getInt("Num_Cama");
 	}
-	END_CATCH
-	return op;
+	delete RS;
+	delete pr;
 }
 
 
-void Monitor1::setIp(const CString & ip) {
+void Monitor1::setIp(const std::string & ip) {
 	this->IP = ip;
 }
 
-void Monitor1::DoFieldExchange(CFieldExchange *pFX){
-		pFX->SetFieldType(CFieldExchange::outputColumn);
-		RFX_Int(pFX, _T("ID"), this->id);
-		RFX_Text(pFX, _T("IP"), IP);
-		RFX_Text(pFX, _T("FehaRegistro"), date_reg);
-		RFX_Int(pFX, _T("Num_Cam"), this->numCam);
-}
-	
-
-
-CString Monitor1::getDateRag() {
-	return date_reg;
-}
-
-int Monitor1::getNumCam() {
-	return numCam;
-}
 
 int Monitor1::getId() {
-	return id;
+	return this->id;
 }
 
-CString Monitor1::getIp() {
-	return this->IP;
-}
 
+int Monitor1::getNumCam(){
+	return this->numCam;
+}
 
 

@@ -2,8 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <tins\tins.h>
+#include <Windows.h>
 #include "..\Include\CapturaDeRed.h"
-
 
 
 

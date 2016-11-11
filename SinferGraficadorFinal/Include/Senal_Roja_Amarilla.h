@@ -1,16 +1,15 @@
 #if !defined(_AMARILLAROJA_)
 #define _AMARILLAROJA_
 #pragma once
-#include <afxdb.h>
 #include <vector>
 #include "StructDB.h"
 #include "SubTramaArt_AP.h"
 #include "Monitor1.h"
-class Senal_Roja_Amarilla : public CRecordset
+class Senal_Roja_Amarilla
 {
 private:
 	int senial;
-	CString dateTime;
+	std::string dateTime;
 	float max;
 	float min;
 	float parentesis;
@@ -24,7 +23,7 @@ public:
 	/// Initializes a new instance of the <see cref="Senal_Roja_Amarilla"/> class.
 	/// </summary>
 	/// <param name="db">The database.</param>
-	Senal_Roja_Amarilla(CDatabase *db);
+	
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Senal_Roja_Amarilla"/> class.
@@ -45,7 +44,7 @@ public:
 	/// Gets the default SQL.
 	/// </summary>
 	/// <returns></returns>
-	virtual  CString GetDefaultSQL();
+	
 };
 
 #endif

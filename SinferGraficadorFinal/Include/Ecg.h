@@ -2,13 +2,12 @@
 #define _ECGBD_
 #pragma once
 #include <vector>
-#include <afxdb.h>
 #include <string>
 #include "StructDB.h"
 #include "Monitor1.h"
 #include "SubTramaECG.h"
 
-class Ecg : public  CRecordset
+class Ecg 
 {
 private:
 	int id;
@@ -32,7 +31,7 @@ public:
 	///	overload
 	/// </summary>
 	/// <param name="bd">The bd.</param>
-	Ecg(CDatabase *);
+	
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ecg"/> class.
@@ -57,7 +56,7 @@ public:
 	/// Gets the default connect.
 	/// </summary>
 	/// <returns></returns>
-	virtual CString GetDefaultSQL();
+	
 
 	/// <summary>
 	/// Opens the tab.

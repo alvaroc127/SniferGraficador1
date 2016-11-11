@@ -2,18 +2,17 @@
 #define _ALARMADB_
 #pragma once
 #include <vector>
-#include <afxdb.h>
 #include "StructDB.h"
 #include "Ecg.h"
 #include "Monitor1.h"
-class AlarmaBD:public CRecordset
+class AlarmaBD
 {
 
 private:
 	int num_cam;
-	CString dateTime;
+	std::string dateTime;
 	int alarmSeverity;
-	CString description;
+	std::string description;
 	std::vector<uint8_t> ECG1;
 	std::vector<uint8_t> ECG2;
 	std::vector<uint8_t> ECG3;
@@ -34,7 +33,7 @@ public:
 	/// Initializes a new instance of the <see cref="AlarmaBD"/> class.
 	/// </summary>
 	/// <param name="">The .</param>
-	AlarmaBD(CDatabase *);
+	
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="AlarmaBD"/> class.
@@ -59,7 +58,7 @@ public:
 	/// Gets the default SQL.
 	/// </summary>
 	/// <returns></returns>
-	virtual CString GetDefaultSQL();
+	
 	
 	/// <summary>
 	/// Conts the character.

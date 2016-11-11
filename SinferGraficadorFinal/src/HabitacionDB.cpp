@@ -11,7 +11,3 @@ HabitacionDB::~HabitacionDB()
 {
 }
 
-
-HabitacionDB::HabitacionDB(CDatabase * cbd) : CRecordset(cbd) {
-
-}

@@ -28,8 +28,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
-    <UseOfMfc>Dynamic</UseOfMfc>
+    <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -70,8 +69,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>C:\libreriac++\WpdPack\Include;C:\Users\ELECTRONICA\Documents\Alvaro_Coronado_Trabajo\Librerias\libtins-master\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\libreriac++\WpdPack\Lib;C:\Users\ELECTRONICA\Documents\Alvaro_Coronado_Trabajo\Librerias\libtins-master\build\lib\Debug;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\libreriac++\WpdPack\Include;C:\Users\ELECTRONICA\Documents\Alvaro_Coronado_Trabajo\Librerias\libtins-master\include;C:\libreriac++\libodbc++-0.2.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\libreriac++\WpdPack\Lib;C:\Users\ELECTRONICA\Documents\Alvaro_Coronado_Trabajo\Librerias\libtins-master\build\lib\Debug;C:\libreriac++\libodbc++-0.2.5\win32\prod-dll;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -84,11 +83,11 @@
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
-      <AdditionalDependencies>Ws2_32.lib;Iphlpapi.lib;wpcap.lib;tins.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Ws2_32.lib;Iphlpapi.lib;wpcap.lib;tins.lib;odbc++.lib;</AdditionalDependencies>
       <AdditionalOptions>-ltins %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -155,7 +154,6 @@
     <ClCompile Include="src\Trama.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\8.1\Include\um\Windows.h" />
     <ClInclude Include="Include\AlarmaBD.h" />
     <ClInclude Include="Include\CapturaDeRed.h" />
     <ClInclude Include="Include\Coneccion.h" />

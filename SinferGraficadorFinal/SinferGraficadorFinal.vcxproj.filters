@@ -187,8 +187,5 @@
     <ClInclude Include="Include\StructDB.h">
       <Filter>DataBase\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\8.1\Include\um\Windows.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

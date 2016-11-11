@@ -1,25 +1,33 @@
 #if !defined(_MONITOR1_)
 #define _MONITOR1_
 #pragma once
+
+#include <odbc++\drivermanager.h>
+#include <odbc++\connection.h>
+#include <odbc++\preparedstatement.h>
+#include <odbc++\resultset.h>
 #include <string>
-#include <afxdb.h>
-class Monitor1 : public   CRecordset
+
+class Monitor1 
 {
 private:
 	int id;
-	CString IP;
+	std::string IP;
 	int numCam;
-	CString date_reg;
+	std::string date_reg;
 	std::string  SQLOpen = "SELECT * FROM Monitor WHERE  ip = "+IP;
+	odbc::Connection *co;
 
 
-public:		
+public:	
+
+	Monitor1(odbc::Connection *mo);
 	/// <summary>
 	/// Monitors the specified .
 	/// </summary>
 	/// <param name="">The .</param>
 	/// <returns></returns>
-	Monitor1(CDatabase *);
+	
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="Monitor1"/> class.
@@ -36,7 +44,7 @@ public:
 	/// Sets the ip.
 	/// </summary>
 	/// <param name="">The .</param>
-	void setIp(const CString &);
+	
 
 
 	/// <summary>
@@ -49,12 +57,12 @@ public:
 	/// Gets the default SQL.
 	/// </summary>
 	/// <returns></returns>
-	virtual CString GetDefaultSQL();
+	
 	
 	/// <summary>
 	/// Does the field exchange.
 	/// </summary>
-	virtual void DoFieldExchange(CFieldExchange *);
+	
 	
 	/// <summary>
 	/// Gets the identifier.
@@ -68,18 +76,6 @@ public:
 	/// <returns></returns>
 	int getNumCam();
 	
-	/// <summary>
-	/// Gets the ip.
-	/// </summary>
-	/// <returns></returns>
-	CString getIp();
-
-	
-	/// <summary>
-	/// Gets the date range.
-	/// </summary>
-	/// <returns></returns>
-	CString getDateRag();
 	
 	
 	/// <summary>
@@ -88,7 +84,18 @@ public:
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
-	void loadMon(CString, CString, int);
+	///void loadMon(CString, CString, int);
+	
+	/// <summary>
+	/// Queries the monitor.
+	/// </summary>
+	void queryMonitor();
+	
+	/// <summary>
+	/// Sets the ip.
+	/// </summary>
+	/// <param name="ip">The ip.</param>
+	void setIp(const std::string  & ip);
 
 };
 

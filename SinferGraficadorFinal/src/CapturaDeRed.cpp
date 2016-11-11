@@ -124,7 +124,7 @@ Tins::NetworkInterface  CapturaDeRed::configCapture() {
 
 
 void CapturaDeRed::startCapture() {
-	co.OpenCo();
+	//co.OpenCo();
 	CapturarPacket1();
 	/*
 	HANDLE hTread;
@@ -180,8 +180,8 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 	else if (head == "150cc00") {
 		this->dat_time.swap(captDta_time());
 		if (co.checkStore()==true) {
-			co.loadDate_Ip();
-			co.insertaDatTab();
+			//co.loadDate_Ip();
+			//co.insertaDatTab();
 		}
 		MindrayParametros mp1;
 		mp1.setFuente(ip);

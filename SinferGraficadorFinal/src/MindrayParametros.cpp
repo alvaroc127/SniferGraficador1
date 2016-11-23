@@ -16,6 +16,7 @@ MindrayParametros::MindrayParametros(const MindrayParametros &)
 
 MindrayParametros::~MindrayParametros()
 {
+	
 	this->head.~HeaderTram();
 	this->subtrmas.erase(subtrmas.begin(), subtrmas.end());
 	this->subtrmas.clear();
@@ -124,7 +125,7 @@ void MindrayParametros::setDtaTime(const std::string &data_Time) {
 	this->data_time =data_Time;
 }
 
-std::string MindrayParametros::getDataTime() {
+ std::string MindrayParametros::getDataTime() {
 	return this->data_time;
 }
 
@@ -144,3 +145,9 @@ int MindrayParametros::codeType(const std::vector<uint8_t> &datas,int pos) {
 std::vector<SubTramaParam *> MindrayParametros::getSubTra() {
 	return this->subtrmas;
 }
+
+
+MindrayParametros *  MindrayParametros::clone() {
+	return new MindrayParametros(*this);
+}
+

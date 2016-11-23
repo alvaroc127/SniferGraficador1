@@ -107,12 +107,18 @@ public:
 	 /// <returns></returns>
 	 bool guardarArch();
 	 	 
+
 	 /// <summary>
-	 /// Operator=s the specified a.
+	 /// Clones this instance.
 	 /// </summary>
-	 /// <param name="a">a.</param>
 	 /// <returns></returns>
-	/// MindrayPacket operator=(const MindrayPacket &a);
+	 MindrayPacket * clone();
+	 
+	 /// <summary>
+	 /// Sets the sub trama.
+	 /// </summary>
+	 /// <param name="">The .</param>
+	 void setSubTrama(const std::vector<SubTramaMi *> &);
  
 };
 #endif

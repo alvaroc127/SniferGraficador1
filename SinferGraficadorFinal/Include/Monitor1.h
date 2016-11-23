@@ -1,27 +1,33 @@
 #if !defined(_MONITOR1_)
 #define _MONITOR1_
+#define _AFXDLL
 #pragma once
 
-#include <odbc++\drivermanager.h>
-#include <odbc++\connection.h>
-#include <odbc++\preparedstatement.h>
-#include <odbc++\resultset.h>
+#include <iostream>
 #include <string>
+#include <Windows.h>
+#include <sqltypes.h>
+#include <sql.h>
+#include <sqlext.h>
+
 
 class Monitor1 
 {
 private:
+	SQLHANDLE sqlenvirot;
+	SQLHANDLE sqlCon;
+	SQLHANDLE sqlstate;
 	int id;
 	std::string IP;
 	int numCam;
 	std::string date_reg;
-	std::string  SQLOpen = "SELECT * FROM Monitor WHERE  ip = "+IP;
-	odbc::Connection *co;
+	std::string  SQLOpen = "SELECT * FROM Monitor WHERE  ip = '";
+	
 
 
 public:	
 
-	Monitor1(odbc::Connection *mo);
+	Monitor1(SQLHANDLE,SQLHANDLE,SQLHANDLE);
 	/// <summary>
 	/// Monitors the specified .
 	/// </summary>
@@ -96,7 +102,59 @@ public:
 	/// </summary>
 	/// <param name="ip">The ip.</param>
 	void setIp(const std::string  & ip);
+	
+	/// <summary>
+	/// Shows the error.
+	/// </summary>
+	/// <param name="handle">The handle.</param>
+	/// <param name="han">The han.</param>
+	void show_Error(unsigned int handle, const SQLHANDLE &han);
 
+	
+	/// <summary>
+	/// Closes this instance.
+	/// </summary>
+	void Close();
+	
+	/// <summary>
+	/// Gets the ip.
+	/// </summary>
+	/// <returns></returns>
+	std::string getIp();
+	
+
+	
+	/// <summary>
+	/// Gets the SQL seten.
+	/// </summary>
+	/// <returns></returns>
+	std::string getSQLSeten();
+
+	
+	/// <summary>
+	/// Gets the date.
+	/// </summary>
+	/// <returns></returns>
+	std::string getDate();
+	
+	/// <summary>
+	/// Sets the hande env.
+	/// </summary>
+	/// <param name="sql">The SQL.</param>
+	void setHandeEnv(SQLHANDLE );
+	
+	/// <summary>
+	/// Sets the hande con.
+	/// </summary>
+	/// <param name="">The .</param>
+	void setHandeCon(SQLHANDLE);
+
+	
+	/// <summary>
+	/// Sets the hande con.
+	/// </summary>
+	/// <param name="">The .</param>
+	void setHandeState(SQLHANDLE);
 };
 
 #endif

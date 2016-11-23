@@ -108,7 +108,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	std::vector<SubTramaAlarma *> getSubTra();
-	
+		
+	/// <summary>
+	/// Clones this instance.
+	/// </summary>
+	/// <returns></returns>
+	MindrayAlarma * clone();
 	
 };
 #endif

@@ -1,15 +1,22 @@
 #if !defined (_CONECCION_)
 #define _CONECCION_
+#define _AFXDLL
 #pragma once
 
-
+/*
 #include <odbc++\drivermanager.h>
 #include <odbc++\connection.h>
 #include <odbc++\resultsetmetadata.h>
 #include <odbc++\callablestatement.h>
 #include <odbc++\databasemetadata.h>
+*/
+#include <iostream>
 #include <stdio.h>
 #include <string>
+#include <Windows.h>
+#include <sqltypes.h>
+#include <sql.h>
+#include <sqlext.h>
 #include "Ecg.h"
 #include "AlarmaBD.h"
 #include "frec_respiratoriDB.h"
@@ -19,6 +26,7 @@
 #include "Monitor1.h"
 #include "StructDB.h"
 #include "SubtRamTemp.h"
+
 
 
 class Conection
@@ -34,11 +42,18 @@ private:
 	Senal_Roja_Amarilla *sRa;
 	HabitacionDB *hB;
 	*/
-	Monitor1 *mon;
-	odbc::Connection *co;
+	SQLHANDLE sqlenvirot;
+	SQLHANDLE sqlCon;
+	SQLHANDLE sqlstate;
+	TIMESTAMP_STRUCT st;
+
+	
+	Monitor1 *mon=NULL;
+	Ecg *ecg = NULL;
 	Store al;
 	std::string date;
 	std::string Ip;
+	bool open=false;
 public:	
 	
 
@@ -118,6 +133,56 @@ public:
 	/// Loads the date ip.
 	/// </summary>
 	void loadDate_Ip();
+	
+	/// <summary>
+	/// Shows the error.
+	/// </summary>
+	void show_Error(unsigned int ,const SQLHANDLE &);
+
+	
+	/// <summary>
+	/// Closes this instance.
+	/// </summary>
+	void Close();
+	
+	/// <summary>
+	/// Sets the store.
+	/// </summary>
+	/// <param name="">The .</param>
+	void setStore(const Store &);
+	
+	/// <summary>
+	/// Inserts the sin alarm.
+	/// </summary>
+	void insertSinAlarm();
+	
+	/// <summary>
+	/// Gets the ip.
+	/// </summary>
+	/// <returns></returns>
+	std::string getFuente();
+	
+	/// <summary>
+	/// Gets the fuente.
+	/// </summary>
+	/// <returns></returns>
+	std::string getDataTime();
+		
+	/// <summary>
+	/// Determines whether this instance is open.
+	/// </summary>
+	/// <returns>
+	///   <c>true</c> if this instance is open; otherwise, <c>false</c>.
+	/// </returns>
+	bool isOpen();
+	
+	/// <summary>
+	/// Sets the time struc.
+	/// </summary>
+	/// <param name="st">The st.</param>
+	void setTimeStruc(const TIMESTAMP_STRUCT &st);
+
+
 	};
 
 #endif

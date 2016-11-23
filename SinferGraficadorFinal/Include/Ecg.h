@@ -1,15 +1,25 @@
 #if !defined(_ECGBD_)
 #define _ECGBD_
 #pragma once
+
+#include <Windows.h>
+#include <sqltypes.h>
+#include <sql.h>
+#include <sqlext.h>
 #include <vector>
 #include <string>
 #include "StructDB.h"
 #include "Monitor1.h"
 #include "SubTramaECG.h"
 
+
+
 class Ecg 
 {
 private:
+	SQLHANDLE sqlenvirot;
+	SQLHANDLE sqlCon;
+	SQLHANDLE sqlstate;
 	int id;
 	std::string date_sig;
 	float aVR;
@@ -24,13 +34,18 @@ private:
 	std::vector<uint8_t> ECG3;
 	float aVF;
 	float CVP;
+	TIMESTAMP_STRUCT st;
+	std::string SQLUPDATE = "update ECG SET ( aVR = ?, aVL = ?, Frec_Cardi = ?, I = ?, II = ?, III = ? , ECG1 = ?, ECG2  = ?, ECG3 = ?, aVF = ?, CVPs = ?) WHERE id = ? AND HoraSenal = ?";
 
 public:
+		
 	/// <summary>
-	/// Initializes a new instance of the <see cref="ecg"/> class.
-	///	overload
+	/// Initializes a new instance of the <see cref="Ecg"/> class.
 	/// </summary>
-	/// <param name="bd">The bd.</param>
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	Ecg(SQLHANDLE, SQLHANDLE, SQLHANDLE);
 	
 
 	/// <summary>
@@ -49,7 +64,7 @@ public:
 	/// </summary>
 	/// <param name="">The .</param>
 	/// <returns></returns>
-	void loadECG(Store s, Monitor1 *);
+	void loadECG(Store &s, Monitor1 *);
 
 
 	/// <summary>
@@ -146,6 +161,60 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float getFrec_Cardi();
+	
+	/// <summary>
+	/// Gets the date time.
+	/// </summary>
+	/// <returns></returns>
+	std::string getDateTime();
+	
+	/// <summary>
+	/// Inserts the ecg.
+	/// </summary>
+	void insertECG();
+
+	/// <summary>
+	/// Sets the hande env.
+	/// </summary>
+	/// <param name="sql">The SQL.</param>
+	void setHandeEnv(SQLHANDLE);
+
+	/// <summary>
+	/// Sets the hande con.
+	/// </summary>
+	/// <param name="">The .</param>
+	void setHandeCon(SQLHANDLE);
+
+
+	/// <summary>
+	/// Sets the hande con.
+	/// </summary>
+	/// <param name="">The .</param>
+	void setHandeState(SQLHANDLE);
+
+
+	/// <summary>
+	/// Shows the error.
+	/// </summary>
+	/// <param name="handle">The handle.</param>
+	/// <param name="han">The han.</param>
+	void show_Error(unsigned int handle, const SQLHANDLE &han);
+
+
+	/// <summary>
+	/// Closes this instance.
+	/// </summary>
+	void Close();
+	
+	/// <summary>
+	/// Sets the time struc.
+	/// </summary>
+	/// <param name="st">The st.</param>
+	void setTimeStruc(const TIMESTAMP_STRUCT &st);
+
+	
+
+
 };
 
 #endif

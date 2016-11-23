@@ -72,7 +72,7 @@ public:
 	 /// Gets the data time.
 	 /// </summary>
 	 /// <returns></returns>
-	 std::string getDataTime();
+	std::string  getDataTime();
 	 
 	 /// <summary>
 	 /// Gets the head.
@@ -98,10 +98,14 @@ public:
 	 /// </summary>
 	 /// <returns></returns>
 	 std::vector<SubTramaParam *> getSubTra();
-
+	 
+	 /// <summary>
+	 /// Clones this instance.
+	 /// </summary>
+	 /// <returns></returns>
+	 MindrayParametros * clone();
 	 
 	
-
 };
 
 #endif

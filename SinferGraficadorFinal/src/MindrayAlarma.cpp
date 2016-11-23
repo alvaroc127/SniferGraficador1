@@ -3,7 +3,7 @@
 
 
 MindrayAlarma::MindrayAlarma(const MindrayAlarma &a) {
-
+	
 
 }
 
@@ -15,6 +15,7 @@ MindrayAlarma::MindrayAlarma()
 
 MindrayAlarma::~MindrayAlarma()
 {
+
 	this->head.~HeaderTram();
 	this->subtra.erase(subtra.begin(), subtra.end());
 	this->subtra.clear();
@@ -115,3 +116,7 @@ std::vector<SubTramaAlarma *> MindrayAlarma::getSubTra() {
 	return this->subtra;
 }
 
+
+MindrayAlarma *  MindrayAlarma::clone() {
+	return new MindrayAlarma(*this);
+}

@@ -15,6 +15,7 @@
 #include "SubtRamTemp.h"
 #include "SubTramSpo2.h"
 #include "GestorArchivo.h"
+#include "StructDB.h"
 #include "Coneccion.h"
 
 
@@ -38,6 +39,7 @@ class CapturaDeRed
 {
 	
 private:
+	Store alm;
 	MindrayAlarma ma;
 	MindrayPacket mp;
 	MindrayParametros mpp;
@@ -47,6 +49,7 @@ private:
 	int posG=0;
 	GestorArchivo ga;
 	Conection co;
+	TIMESTAMP_STRUCT ts;
 
 public:
 	/// <summary>
@@ -139,7 +142,11 @@ public:
 	/// Guardars the ma.
 	/// </summary>
 	bool guardarMA(MindrayAlarma &);
-	
+		
+	/// <summary>
+	/// Almacens the database.
+	/// </summary>
+	void almacenDB();
 
 };
 

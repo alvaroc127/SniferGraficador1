@@ -2,8 +2,10 @@
 
 
 
-Monitor1::Monitor1(odbc::Connection *co) {
-	this->co = co;
+Monitor1::Monitor1(SQLHANDLE envi ,SQLHANDLE con,SQLHANDLE  state) {
+	this->sqlenvirot = envi;
+	this->sqlCon = con;
+	this->sqlstate = state;
 }
 
 Monitor1::Monitor1()
@@ -19,18 +21,24 @@ Monitor1::~Monitor1()
 
 
 void Monitor1::queryMonitor() {
-	odbc::ResultSet *RS;
-	odbc::PreparedStatement *pr;
-	pr=this->co->prepareStatement(this->SQLOpen);
-	RS = pr->executeQuery();
-	while (RS->next()) {
-		this->id=RS->getInt("ID");
-		this->IP=RS->getString("IP");
-		this->date_reg = RS->getTimestamp("FechaRegistro").toString();
-		this->numCam = RS->getInt("Num_Cama");
+	std::cout << " openchar" << (SQLOpen + IP + "'")<< std::endl;
+	if (SQL_SUCCESS != SQLExecDirect(sqlstate,(SQLCHAR *)(SQLOpen + IP + "'").c_str(),SQL_NTS)) {
+		show_Error(SQL_HANDLE_STMT, sqlstate);
+		Close();
 	}
-	delete RS;
-	delete pr;
+	else {
+		char IP[64];
+		char Dat[64];
+		//SQLExecute(sqlstate);
+		while (SQLFetch(sqlstate)==SQL_SUCCESS) {
+			SQLGetData(sqlstate,1,SQL_C_ULONG,&this->id,sizeof(int),NULL);
+			SQLGetData(sqlstate,2,SQL_C_CHAR,IP,sizeof(IP),NULL);
+			SQLGetData(sqlstate,3, SQL_C_ULONG, &this->numCam, sizeof(int), NULL);
+			SQLGetData(sqlstate,4,SQL_C_CHAR,Dat,64,NULL);
+			this->IP = IP;
+			this->date_reg = Dat;
+		}
+	}
 }
 
 
@@ -49,3 +57,50 @@ int Monitor1::getNumCam(){
 }
 
 
+void Monitor1::show_Error(unsigned int handle, const SQLHANDLE &han) {
+	SQLCHAR sqlstate[1024];
+	SQLCHAR sqlmessag[1024];
+	if (SQL_SUCCESS == SQLGetDiagRec(handle, han, 1, sqlstate, NULL, sqlmessag, 1024, NULL))
+		std::cout << "Mensaje " << sqlmessag << "Estado " << sqlstate << std::endl;
+}
+
+void Monitor1::Close() {
+	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
+	SQLDisconnect(sqlCon);
+	SQLFreeHandle(SQL_HANDLE_DBC, sqlenvirot);
+	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+}
+
+
+
+std::string Monitor1::getIp() {
+	return this->IP;
+}
+
+
+
+
+
+std::string Monitor1::getSQLSeten() {
+	return this->SQLOpen;
+}
+
+std::string Monitor1::getDate(){
+	return this->date_reg;
+}
+
+
+void Monitor1::setHandeEnv(SQLHANDLE envir) {
+	this->sqlenvirot = envir;
+}
+
+
+void Monitor1::setHandeCon(SQLHANDLE con) {
+	this->sqlCon = con;
+}
+
+
+
+void Monitor1::setHandeState(SQLHANDLE stat) {
+	this->sqlstate = stat;
+}

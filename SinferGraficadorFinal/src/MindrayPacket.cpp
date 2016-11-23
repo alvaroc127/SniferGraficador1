@@ -15,6 +15,7 @@ MindrayPacket::MindrayPacket(const MindrayPacket & ref)
 
 MindrayPacket::~MindrayPacket()
 {
+
 	this->head.~HeaderTram();
 	this->subtrmas.erase(subtrmas.begin(), subtrmas.end());
 	this->subtrmas.clear();
@@ -91,4 +92,10 @@ std::string  MindrayPacket::getFuente() {
 	 return this->subtrmas;
  }
 
- 
+ MindrayPacket *  MindrayPacket::clone() {
+	 return new MindrayPacket(*this);
+ }
+
+ void MindrayPacket::setSubTrama(const std::vector<SubTramaMi *> & subra) {
+	 this->subtrmas = subra;
+ }

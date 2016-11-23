@@ -124,7 +124,7 @@ Tins::NetworkInterface  CapturaDeRed::configCapture() {
 
 
 void CapturaDeRed::startCapture() {
-	//co.OpenCo();
+	co.OpenCo();
 	CapturarPacket1();
 	/*
 	HANDLE hTread;
@@ -161,7 +161,13 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			mp.setHead(he);
 			pos=mp.clasifyData(datas, pos);
 			this->wait = true;
-			co.insertRegisMP(mp);
+			if (alm.mpp.getDataTime() == mp.getDataTime()) {
+				this->alm.mp = mp;
+				alm.mp.setSubTrama(mp.getSubTra());
+				cout << "cantidad de subtrama primer llamado" << mp.getSubTra().size() << alm.mp.getSubTra().size() << endl;
+				cout << "se almaceno mpp" << alm.mpp.getDataTime() << endl;
+				cout << "se almaceno mp" << alm.mp.getDataTime() << endl;
+			}
 			//if (guardarMP(mp)) {
 
 			//}
@@ -169,6 +175,7 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 		else {
 			setVector(datas);
 			this->mp = mp;
+			///std::cout << "! valor" << this->mp.getSubTra().size() << std::endl;
 			this->wait = false;
 			posG = pos;
 			}
@@ -179,10 +186,7 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 	}
 	else if (head == "150cc00") {
 		this->dat_time.swap(captDta_time());
-		if (co.checkStore()==true) {
-			//co.loadDate_Ip();
-			//co.insertaDatTab();
-		}
+		almacenDB();
 		MindrayParametros mp1;
 		mp1.setFuente(ip);
 		//cout<<mp.getFuente()<<endl;
@@ -196,7 +200,13 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			mp1.setHead(he);
 			pos=mp1.clasifyData(datas, pos);
 			this->wait = true;
-			co.inserRegisMPP(mp1);
+			if (alm.mpp.getFuente().empty()==true) {
+				alm.mpp = mp1;
+				co.setDate(dat_time);
+				co.setIp(ip);
+				cout << "se almaceno" << alm.mpp.getDataTime()<<"con co"<<co.getDataTime()<<" Y "<<co.getFuente() << endl;
+
+			}
 			//if (guardarMPP(mp1)) {
 
 			//}
@@ -228,7 +238,13 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 		if (datas.size() >= he.sizePacket()) {
 		ma.setHead(he);
 		pos=ma.clasifyData(datas, pos);
-		co.insertRegisMA(ma);
+		cout << "comparando" << ma.getDataTime() << "con" << alm.mpp.getDataTime() << endl;
+		if (ma.getDataTime()==alm.mpp.getDataTime()) {
+			cout << "se almaceno alm" << alm.ma.getDataTime() << endl;
+			cout << "se almaceno mpp" << alm.mpp.getDataTime() << endl;
+			cout << "se almaceno mp" << alm.mp.getDataTime() << endl;
+			alm.ma = ma;
+		}
 		//if (guardarMA(ma)) {
 			//cout << "la ip es" << ma.getFuente() << "con cabeza" << head << endl; cout << "el paquete llego a las" << ma.getDataTime() << " el tamanio " << he.sizePacket() << endl;
 			//}
@@ -245,22 +261,35 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			datWait.insert(std::end(datWait), std::begin(datas), std::end(datas));
 			if (this->mp.getFuente().empty() == false) {
 				pos = mp.clasifyData(datWait, posG);
+				if (alm.mp.getDataTime() == mp.getDataTime()) {
+					this->alm.mp = mp;
+					std::cout <<"cantidad de subtrama-----------"<<mp.getSubTra().size() << std::endl;
+					alm.mp.setSubTrama(mp.getSubTra());
+				}
 				//guardarMP(mp);
-				co.insertRegisMP(mp);
+				//co.insertRegisMP(mp);
 				mp.getFuente().clear();
 				datWait.clear();
 			}
 			else if (this->ma.getFuente().empty() == false) {
 				ma.clasifyData(datWait, posG);
+				if (ma.getDataTime() == alm.mpp.getDataTime()) {
+					alm.ma = ma;
+				}
 				//guardarMA(ma);
-				co.insertRegisMA(ma);
+				//co.insertRegisMA(ma);
 				ma.getFuente().clear();
 				datWait.clear();
 			}
 			else if (this->mpp.getFuente().empty() == false) {
 				mpp.clasifyData(datWait, posG);
+				if (alm.mpp.getFuente().empty() == true) {
+					alm.mpp = mpp;
+					co.setDate(dat_time);
+					co.setIp(ip);
+				}
 				//guardarMPP(mpp);
-				co.inserRegisMPP(mpp);
+				//co.inserRegisMPP(mpp);
 				mpp.getFuente().clear();
 				datWait.clear();
 			}
@@ -281,8 +310,45 @@ string  CapturaDeRed::captDta_time() {
 	string data_ti;
 	SYSTEMTIME  lt;
 	GetLocalTime(&lt);
-	data_ti+=std::to_string(lt.wYear)+"-"+std::to_string(lt.wMonth)+"-"+std::to_string(lt.wDayOfWeek)+" "+std::to_string(lt.wHour)+":"+std::to_string(lt.wMinute)+":"+std::to_string(lt.wSecond)+":"+
-	std::to_string(lt.wMilliseconds);
+	ts.year = lt.wYear; ts.month = lt.wMonth; ts.day = lt.wDayOfWeek; ts.hour = lt.wHour; ts.minute = lt.wMinute; ts.second = lt.wSecond; ts.fraction = lt.wMilliseconds;
+	//cout << ts.year << ts.year << ts.month << ts.day << ts.hour << ts.minute << ts.second << ts.fraction << endl;
+	if (lt.wMonth < 10 || lt.wDayOfWeek < 10 || lt.wMinute < 10 ||lt.wSecond < 10) {
+		if (lt.wMonth < 10) {
+			data_ti = std::to_string(lt.wYear) + "-" + "0" + std::to_string(lt.wMonth) + "-";
+		}
+		else {
+			data_ti = std::to_string(lt.wYear) + "-" + std::to_string(lt.wMonth) + "-";
+		}
+		if (lt.wDay < 10) {
+			data_ti += "0" + std::to_string(lt.wDay);
+		}
+		else {
+			data_ti += std::to_string(lt.wDay);
+		}
+		if (lt.wHour < 10) {
+			data_ti += " 0" + std::to_string(lt.wHour);
+		}
+		else {
+			data_ti += " " + std::to_string(lt.wHour);
+			}
+		if	(lt.wMinute < 10) {
+			data_ti += ":0" + std::to_string(lt.wMinute);
+		}
+		else {
+			data_ti += ":" + std::to_string(lt.wMinute);
+		}
+		if (lt.wSecond < 10) {
+			data_ti += ":0" + std::to_string(lt.wSecond)+ ":" +std::to_string(lt.wMilliseconds);
+		}
+		else {
+			data_ti += ":" + std::to_string(lt.wSecond)+":" + std::to_string(lt.wMilliseconds);
+		}
+		cout << "la fecha con zeros es" << data_ti << endl;
+	}
+	else {
+		data_ti += std::to_string(lt.wYear) + "-" + std::to_string(lt.wMonth) + "-" + std::to_string(lt.wDayOfWeek) + " " + std::to_string(lt.wHour) + ":" + std::to_string(lt.wMinute) + ":" + std::to_string(lt.wSecond) + ":" +
+			std::to_string(lt.wMilliseconds);
+	}
 	return  data_ti;
 }
 
@@ -490,4 +556,46 @@ bool CapturaDeRed::guardarMA(MindrayAlarma &ma) {
 	return true;
 }
 
+void CapturaDeRed::almacenDB() {
+	if (!co.isOpen()) {
+		co.OpenCo();
+	}
+	if (alm.ma.getDataTime().empty() == false && alm.mpp.getDataTime().empty() == false && alm.mp.getDataTime().empty() == false) {
+		co.setStore(alm);
+		co.setTimeStruc(this->ts);
+		co.loadDatTableMon();
+		co.insertaDatTab();
+		// falta mecanismo de eliminacion  para las subtramas que estan en memoria.
+		alm.mp.getDataTime().clear();
+		alm.mpp.getDataTime().clear();
+		alm.ma.getDataTime().clear();
+		alm.mp.getFuente().clear();
+		alm.mpp.getFuente().clear();
+		alm.ma.getFuente().clear();
+	}
+	else {
+		if (alm.ma.getDataTime().empty()==true && (alm.mpp.getDataTime().empty() == false && alm.mp.getDataTime().empty() == false)) {
+			co.setStore(alm);
+			co.setTimeStruc(this->ts);
+			co.loadDatTableMon();
+			cout << "esta es la fecha" << co.getDataTime() << endl;
+			cout << "esta es la fuente" << co.getFuente() << endl;
+			//no hay alarmas para guardar
+			//almacenar sin alarmas
+			co.insertSinAlarm();
+			// falta mecanismo de eliminacion  para las subtramas que estan en memoria.
+			alm.mp.getDataTime().clear();
+			alm.mpp.getDataTime().clear();
+			alm.ma.getDataTime().clear();
+			alm.mp.getFuente().clear();
+			alm.mpp.getFuente().clear();
+			alm.ma.getFuente().clear();
+		}
+	}
 
+
+
+
+
+
+}

@@ -26,6 +26,7 @@
 #include "Monitor1.h"
 #include "StructDB.h"
 #include "SubtRamTemp.h"
+#include "SPO2BD.h"
 
 
 
@@ -46,10 +47,14 @@ private:
 	SQLHANDLE sqlCon;
 	SQLHANDLE sqlstate;
 	TIMESTAMP_STRUCT st;
-
-	
 	Monitor1 *mon=NULL;
 	Ecg *ecg = NULL;
+	frec_respiratoriDB *Fres = NULL;
+	Senal_Roja_Amarilla *sr = NULL;
+	HabitacionDB *hb = NULL;
+	AlarmaBD *abd = NULL;
+	SPO2BD *spoBD = NULL;
+	TemperaturaDB *tbd = NULL;
 	Store al;
 	std::string date;
 	std::string Ip;
@@ -163,7 +168,7 @@ public:
 	std::string getFuente();
 	
 	/// <summary>
-	/// Gets the fuente.
+	/// Gets the dATAtIME
 	/// </summary>
 	/// <returns></returns>
 	std::string getDataTime();
@@ -181,8 +186,18 @@ public:
 	/// </summary>
 	/// <param name="st">The st.</param>
 	void setTimeStruc(const TIMESTAMP_STRUCT &st);
+	
+		
+	/// <summary>
+	/// Loads the table.
+	/// </summary>
+	void loadTable();
 
-
+	
+	/// <summary>
+	/// Sets the headers.
+	/// </summary>
+	void setHeaders();
 	};
 
 #endif

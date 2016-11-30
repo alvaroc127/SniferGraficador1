@@ -21,7 +21,6 @@ Monitor1::~Monitor1()
 
 
 void Monitor1::queryMonitor() {
-	std::cout << " openchar" << (SQLOpen + IP + "'")<< std::endl;
 	if (SQL_SUCCESS != SQLExecDirect(sqlstate,(SQLCHAR *)(SQLOpen + IP + "'").c_str(),SQL_NTS)) {
 		show_Error(SQL_HANDLE_STMT, sqlstate);
 		Close();

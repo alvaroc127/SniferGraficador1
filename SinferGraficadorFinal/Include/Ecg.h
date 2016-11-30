@@ -22,20 +22,21 @@ private:
 	SQLHANDLE sqlstate;
 	int id;
 	std::string date_sig;
-	float aVR;
-	float aVL;
-	float fre_Card;
-	float I;
-	float II;
-	float III;
-	float V;
+	float aVR=0;
+	float aVL=0;
+	float fre_Card=0;
+	float I=0;
+	float II=0;
+	float III=0;
+	float V=0;
 	std::vector<uint8_t> ECG1;
 	std::vector<uint8_t> ECG2;
 	std::vector<uint8_t> ECG3;
-	float aVF;
-	float CVP;
+	float aVF=0;
+	float CVP=0;
 	TIMESTAMP_STRUCT st;
-	std::string SQLUPDATE = "update ECG SET ( aVR = ?, aVL = ?, Frec_Cardi = ?, I = ?, II = ?, III = ? , ECG1 = ?, ECG2  = ?, ECG3 = ?, aVF = ?, CVPs = ?) WHERE id = ? AND HoraSenal = ?";
+	std::string SQLUPDATE = "update ECG SET  aVR = ?, aVL = ?, Frec_Cardi = ?, I = ?, II = ?, III = ?, V = ? , ECG1 = ?, ECG2  = ?, ECG3 = ?, aVF = ?, CVPs = ?  WHERE ";
+	std::string SQLUPDATE1 = "update ECG SET  aVR = ?, aVL = ?, Frec_Cardi = ?, I = ?, II = ?, III = ? , aVF = ?, CVPs = ? WHERE id = ? AND HoraSenal = ?";
 
 public:
 		

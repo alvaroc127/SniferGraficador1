@@ -101,6 +101,9 @@
     <ClCompile Include="src\Senal_Roja_Amarilla.cpp">
       <Filter>DataBase\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\SPO2BD.cpp">
+      <Filter>DataBase\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\CapturaDeRed.h">
@@ -185,6 +188,9 @@
       <Filter>DataBase\Include</Filter>
     </ClInclude>
     <ClInclude Include="Include\StructDB.h">
+      <Filter>DataBase\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SPO2BD.h">
       <Filter>DataBase\Include</Filter>
     </ClInclude>
   </ItemGroup>

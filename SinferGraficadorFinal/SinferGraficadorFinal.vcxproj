@@ -142,6 +142,7 @@
     <ClCompile Include="src\MindrayParametros.cpp" />
     <ClCompile Include="src\Monitor1.cpp" />
     <ClCompile Include="src\Senal_Roja_Amarilla.cpp" />
+    <ClCompile Include="src\SPO2BD.cpp" />
     <ClCompile Include="src\SubTrama.cpp" />
     <ClCompile Include="src\SubTramaAlarma.cpp" />
     <ClCompile Include="src\SubTramaArt_AP.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Include\MindrayParametros.h" />
     <ClInclude Include="Include\Monitor1.h" />
     <ClInclude Include="Include\Senal_Roja_Amarilla.h" />
+    <ClInclude Include="Include\SPO2BD.h" />
     <ClInclude Include="Include\Struct.h" />
     <ClInclude Include="Include\StructDB.h" />
     <ClInclude Include="Include\SubTrama.h" />

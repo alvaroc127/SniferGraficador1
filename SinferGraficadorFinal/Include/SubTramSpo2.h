@@ -72,6 +72,20 @@ public:
 	int runData(const std::vector<uint8_t> &, int);
 
 	SPO2  datTram(SPO2 &);
+	
+	/// <summary>
+	/// Gets the dato1.
+	/// </summary>
+	/// <returns></returns>
+	float getDato1();
+
+	
+	/// <summary>
+	/// Gets the frecuencia.
+	/// </summary>
+	/// <returns></returns>
+	float getFrecuencia();
+	
 };
 
 #endif

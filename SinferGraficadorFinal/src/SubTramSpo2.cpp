@@ -92,3 +92,11 @@ SPO2 SubTramSpo2::datTram(SPO2 &tip) {
 	tip.tipo="SPO2PARAM.txt";
 	return tip;
 }
+
+float SubTramSpo2::getDato1() {
+	return dato1;
+}
+
+float SubTramSpo2::getFrecuencia() {
+	return frecuencia;
+}

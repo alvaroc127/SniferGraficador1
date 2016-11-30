@@ -177,6 +177,7 @@ void GestorArchivo::EscribirDatECG(const ECG & ecg ,MindrayParametros & mpp) {
 	outArc << ecg.frecuencia;
 	outArc << " ";
 	outArc << ecg.I;
+	outArc << " ";
 	outArc << ecg.II;
 	outArc << " ";
 	outArc << ecg.III;

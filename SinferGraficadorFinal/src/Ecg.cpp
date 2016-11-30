@@ -26,19 +26,19 @@ void Ecg::loadECG(Store  &st, Monitor1 *mon) {
 	ECG ecg;
 	this->id = mon->getId();
 	date_sig = st.mpp.getDataTime().c_str();
-	std::cout << "catnidad de subtramas" <<st.mp.getSubTra().size() << std::endl;
+	std::cout << "catnidad de subtramas mindra Packet" << st.mp.getSubTra().size() << std::endl;
 	for (int i = 0; i < st.mp.getSubTra().size(); i++) {
 		sig = st.mp.getSubTra().at(i)->datTram(sig);
-		std::cout << sig.tipo << std::endl;
-		if (sig.tipo == "ECG1.txt") {
+		std::cout <<"EN ECG"<<sig.tipo << std::endl;
+		if (sig.tipo == "ECGSig1.txt") {
 			std::cout << "cargo una senial" << std::endl;
 			this->ECG1 = sig.sign1;
 		}
-		else if (sig.tipo == "ECG2.txt") {
+		else if (sig.tipo == "ECGSig2.txt") {
 			std::cout << "cargo una senial" << std::endl;
 			this->ECG2 = sig.sign1;
 		}
-		else if (sig.tipo == "ECG3.txt") {
+		else if (sig.tipo == "ECGSig3.txt") {
 			std::cout << "cargo una senial" << std::endl;
 			this->ECG3 = sig.sign1;
 		}
@@ -46,7 +46,6 @@ void Ecg::loadECG(Store  &st, Monitor1 *mon) {
 	for (int a = 0; a < st.mpp.getSubTra().size(); a++) {
 		SubTramaECG * sue = dynamic_cast<SubTramaECG *> (st.mpp.getSubTra().at(a));
 		if (sue != NULL) {
-			std::cout << "esta aqui"<<std::endl;
 			ecg = sue->datTram(ecg);
 			this->aVR = ecg.aVR;
 			this->aVL = ecg.aVL;
@@ -97,80 +96,211 @@ void Ecg::setHandeState(SQLHANDLE stat) {
 void Ecg::insertECG() {
 	RETCODE rc;
 	char senten[100];
-		SQLLEN a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0, m = 0, n = 0;
+	char sqlupda[100];
+	std::string aux = SQLUPDATE;
+	SQLLEN a = 0, b = 0, c = 0, d = 0, e = 0, f = 0, g = 0, h = 0, i = 0, j = 0, k = 0, l = 0, m = 0, n = 0;
 		sprintf_s(senten,"INSERT INTO ECG (id , HoraSenal ) values (%i,'%i/%i/%i %i:%i:%i.%i')",id,st.year,st.month,st.day,st.hour,st.minute,st.second,st.fraction);
 			if (SQL_SUCCESS != SQLExecDirect(sqlstate, (SQLCHAR *)senten , SQL_NTS)) {
 				show_Error(SQL_HANDLE_STMT, sqlstate);
 				Close();
 			}
-			rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVR, sizeof(float), &a);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 1" << std::endl;
+			sprintf_s(sqlupda, "id = %i AND HoraSenal = '%i/%i/%i %i:%i:%i.%i';", id, st.year, st.month, st.day, st.hour, st.minute, st.second, st.fraction);
+
+			//if (aVR != 0) {
+				rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVR, sizeof(float), &a);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 1" << std::endl;
+				}
+			//}
+		//	else {
+		//		rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &a);
+			//	if (SQL_SUCCESS != rc) {
+			//		show_Error(SQL_HANDLE_STMT, sqlstate);
+				//	std::cout << "aqui  entro 1" << std::endl;
+			//	}
+			//}
+
+		//	if (aVL != 0) {
+				rc = SQLBindParameter(sqlstate, 2, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVL, sizeof(float), &b);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 2" << std::endl;
+				}
+		//	}
+			//else {
+			//	rc = SQLBindParameter(sqlstate, 2, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &b);
+		//	//	if (SQL_SUCCESS != rc) {
+			//		show_Error(SQL_HANDLE_STMT, sqlstate);
+				//	std::cout << "aqui  entro 2" << std::endl;
+			//	}
+			//}
+
+			//if (fre_Card != 0) {
+				rc = SQLBindParameter(sqlstate, 3, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &fre_Card, sizeof(float), &c);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 3" << std::endl;
+				}
+			//}
+			//else {
+		//	//	rc = SQLBindParameter(sqlstate, 3, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &c);
+			//	if (SQL_SUCCESS != rc) {
+				//	show_Error(SQL_HANDLE_STMT, sqlstate);
+				//	std::cout << "aqui  entro 3" << std::endl;
+				//}
+			//}
+
+		//	if (I != 0) {
+				rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &I, sizeof(float), &d);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 4" << std::endl;
+				}
+			//}
+			//else {
+				//rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &d);
+				//if (SQL_SUCCESS != rc) {
+				//	show_Error(SQL_HANDLE_STMT, sqlstate);
+				//	std::cout << "aqui  entro 4" << std::endl;
+				//}
+			//}
+
+		//	if ( II != 0) {
+				rc = SQLBindParameter(sqlstate, 5, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &II, sizeof(float), &e);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 5" << std::endl;
+				}
+			//}
+			//else {
+			///	rc = SQLBindParameter(sqlstate, 5, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &e);
+			//	if (SQL_SUCCESS != rc) {
+			//		show_Error(SQL_HANDLE_STMT, sqlstate);
+			//		std::cout << "aqui  entro 5" << std::endl;
+				//}
+			
+			//}
+
+		//	if (III  != 0) {
+				rc = SQLBindParameter(sqlstate, 6, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &III, sizeof(float), &f);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 6" << std::endl;
+				}
+			//}
+		//	else {
+			//	rc = SQLBindParameter(sqlstate, 6, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &f);
+			//	if (SQL_SUCCESS != rc) {
+				//	show_Error(SQL_HANDLE_STMT, sqlstate);
+			//		std::cout << "aqui  entro 6" << std::endl;
+			//	}
+			
+			
+			//}
+
+		//	if (V != 0) {
+				rc = SQLBindParameter(sqlstate, 7, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &V, sizeof(float), &g);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 7" << std::endl;
+				}
+			//}
+		//	else {
+			//	rc = SQLBindParameter(sqlstate, 7, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &g);
+				//if (SQL_SUCCESS != rc) {
+				//	show_Error(SQL_HANDLE_STMT, sqlstate);
+				//	std::cout << "aqui  entro 7" << std::endl;
+			//	}
+			
+			//}
+
+			if (ECG1.empty()==false) {
+				h = ECG1.size() - 1;
+				rc = SQLBindParameter(sqlstate, 8, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &ECG1[0], ECG1.size()-1, &h);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 8" << std::endl;
+				}
 			}
-			rc = SQLBindParameter(sqlstate, 2, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVL, sizeof(float), &b);
-			if (SQL_SUCCESS != rc) {
-			show_Error(SQL_HANDLE_STMT, sqlstate);
-			std::cout << "aqui  entro 2" << std::endl;
+			else {
+				rc = SQLBindParameter(sqlstate, 8, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, NULL, 0,&h);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 8" << std::endl;
+				}
 			}
-			rc = SQLBindParameter(sqlstate, 3, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &fre_Card, sizeof(float), &c);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 3" << std::endl;
+			if (ECG2.empty()==false) {
+				h = ECG2.size() - 1;
+				rc = SQLBindParameter(sqlstate, 9, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &ECG2[0], ECG2.size()-1, &i);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 9" << std::endl;
+				}
 			}
-			rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &I, sizeof(float), &d);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 4" << std::endl;
+			else {
+				rc = SQLBindParameter(sqlstate, 9, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, NULL, 0, &i);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 9" << std::endl;
+				}
 			}
-			rc = SQLBindParameter(sqlstate, 5, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &II, sizeof(float), &e);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 5" << std::endl;
+			if (ECG3.empty()==false) {
+				h = ECG3.size() - 1;
+				rc = SQLBindParameter(sqlstate, 10, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &ECG3[0], ECG3.size()-1, &j);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 10" << std::endl;
+				}
 			}
-			rc = SQLBindParameter(sqlstate, 6, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &III, sizeof(float), &f);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 6" << std::endl;
+			else {
+				rc = SQLBindParameter(sqlstate, 10, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, NULL, 0, &j);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 10" << std::endl;
+				}
 			}
-			rc = SQLBindParameter(sqlstate, 7, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &V, sizeof(float), &g);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 7" << std::endl;
-			}
-			h = ECG1.size() - 1;
-			rc = SQLBindParameter(sqlstate, 8, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY,8000, 0, &ECG1[0], ECG1.size(), &h);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 8" << std::endl;
-			}
-			h = ECG2.size() - 1;
-			rc = SQLBindParameter(sqlstate, 9, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, ECG2.size(), 0, &ECG2[0], ECG2.size(), &i);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 9" << std::endl;
-			}
-			h = ECG3.size() - 1;
-			rc = SQLBindParameter(sqlstate, 10, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, ECG3.size(), 0, &ECG3[0], ECG3.size(), &j);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 10" << std::endl;
-			}
-			rc = SQLBindParameter(sqlstate, 11, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVF, sizeof(float), &k);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 11" << std::endl;
-			}
-			rc = SQLBindParameter(sqlstate, 12, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &CVP, sizeof(float), &l);
-			if (SQL_SUCCESS != rc) {
-				show_Error(SQL_HANDLE_STMT, sqlstate);
-				std::cout << "aqui  entro 12" << std::endl;
-			}
-			if (SQL_SUCCESS != SQLExecDirect(sqlstate, (SQLCHAR *)this->SQLUPDATE.c_str(), SQL_NTS)) {
+
+		///	if (aVF != 0) {
+				rc = SQLBindParameter(sqlstate, 11, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, &aVF, sizeof(float), &k);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 11" << std::endl;
+				}
+			//}
+		//	else {
+			//	rc = SQLBindParameter(sqlstate, 11, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, NULL,0, &k);
+				//if (SQL_SUCCESS != rc) {
+					//show_Error(SQL_HANDLE_STMT, sqlstate);
+					//std::cout << "aqui  entro 11" << std::endl;
+				//}
+			
+			//}
+
+			//if (CVP != 0) {
+				rc = SQLBindParameter(sqlstate, 12, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, &CVP, sizeof(float), &l);
+				if (SQL_SUCCESS != rc) {
+					show_Error(SQL_HANDLE_STMT, sqlstate);
+					std::cout << "aqui  entro 12" << std::endl;
+				}
+			//}
+			//else {
+				//std::cout << "ALMACENA null" << std::endl;
+				//rc = SQLBindParameter(sqlstate, 12, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, NULL, 0, &l);
+				//if (SQL_SUCCESS != rc) {
+				//	show_Error(SQL_HANDLE_STMT, sqlstate);
+				//	std::cout << "aqui  entro 12" << std::endl;
+				//}
+			
+			//}
+
+			aux.append(sqlupda);
+		if (SQL_SUCCESS != SQLExecDirect(sqlstate, (SQLCHAR *)aux.c_str(), SQL_NTS)) {
 				show_Error(SQL_HANDLE_STMT, sqlstate);
 				std::cout << "aqui  entro 13" << std::endl;
 				Close();
 			}
+
 }
 
 
@@ -223,4 +353,16 @@ float Ecg::getV(){
 
 void Ecg::setTimeStruc(const TIMESTAMP_STRUCT &st) {
 	this->st = st;
+}
+
+std::vector<uint8_t> Ecg::getEcg1() {
+	return ECG1;
+}
+
+std::vector<uint8_t> Ecg::getEcg2(){
+	return ECG2;
+}
+
+std::vector<uint8_t> Ecg::getEcg3() {
+	return ECG3;
 }

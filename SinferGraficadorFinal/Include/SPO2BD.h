@@ -1,57 +1,47 @@
-#if !defined(_AMARILLAROJA_)
-#define _AMARILLAROJA_
+#if !defined(_SPO2BD_)
+#define _SPOD2BD_
 #pragma once
 #include <vector>
 #include "StructDB.h"
-#include "SubTramaArt_AP.h"
+#include "SubTramSpo2.h"
 #include "Monitor1.h"
-class Senal_Roja_Amarilla
+
+class SPO2BD
 {
 private:
-
 	SQLHANDLE sqlenvirot;
 	SQLHANDLE sqlCon;
 	SQLHANDLE sqlstate;
 	TIMESTAMP_STRUCT st;
-	int senial;
-	std::string dateTime;
-	float max;
-	float min;
-	float parentesis;
+	std::string SQLUPDATE = "UPDATE SPO2 SET  SenalSPO2 = ? , Desconocido = ?, frecuencia = ? WHERE ";
 	int id;
-	std::vector<uint8_t> sig;
-	std::string SQLUPDATE = "UPDATE Senal_Roja_Amarilla SET  TipoSenal = ? , Maximo = ?, Minimo = ?, Parentesis = ? , Senal = ? WHERE ";
+	std::vector<uint8_t> signa;
+	float frec_encia = 0;
+	float desconocido = 0;
 	bool bandPara = false;
 	bool bandSig = false;
 
-public:
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Senal_Roja_Amarilla"/> class.
-	/// </summary>
-	/// <param name="db">The database.</param>
-	Senal_Roja_Amarilla(SQLHANDLE, SQLHANDLE, SQLHANDLE);
-
-	/// <summary>
-	/// Initializes a new instance of the <see cref="Senal_Roja_Amarilla"/> class.
-	/// </summary>
-	Senal_Roja_Amarilla();
-		
-	/// <summary>
-	/// Loads the sr a.
-	/// </summary>
-	void loadSrA(Store & ,SubTramaArt_AP *, Monitor1 *);
-
-	/// <summary>
-	/// Finalizes an instance of the <see cref="Senal_Roja_Amarilla"/> class.
-	/// </summary>
-	virtual ~Senal_Roja_Amarilla();
+public:	
 	
 	/// <summary>
-	/// Gets the default SQL.
+	/// Initializes a new instance of the <see cref="SPO2BD"/> class.
 	/// </summary>
-	/// <returns></returns>
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	SPO2BD(SQLHANDLE, SQLHANDLE, SQLHANDLE);
+
+	/// <summary>
+	/// Initializes a new instance of the <see cref="SPO2BD"/> class.
+	/// </summary>
+	SPO2BD();
 	
+	/// <summary>
+	/// Finalizes an instance of the <see cref="SPO2BD"/> class.
+	/// </summary>
+	virtual ~SPO2BD();
+
+
 	/// <summary>
 	/// Sets the hande env.
 	/// </summary>
@@ -85,31 +75,36 @@ public:
 	/// <param name="">The .</param>
 	void show_Error(unsigned int, const SQLHANDLE &);
 
-
 	/// <summary>
 	/// Closes this instance.
 	/// </summary>
 	void Close();
 	
 	/// <summary>
-	/// Inserts the tab signal red yell.
+	/// Loads the sp o2.
 	/// </summary>
-	void insertTabSignalRed_Yell();
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	void loadSPO2(Store &, SubTramSpo2 *, Monitor1 *);
 	
 	/// <summary>
-	/// Loads the parameter.
+	/// Insertars the sp o2.
 	/// </summary>
-	/// <param name="">The .</param>
-	/// <param name="">The .</param>
-	void loadParam(SubTramaArt_AP *, Monitor1 *);
-
+	void insertarTablSPO2();
 	
 	/// <summary>
 	/// Loads the signal.
 	/// </summary>
-	/// <param name="si">The si.</param>
+	/// <param name="sig">The sig.</param>
+	void loadSignal(Signal &sig, Monitor1 *);
+	
+	/// <summary>
+	/// Loads the parametros.
+	/// </summary>
 	/// <param name="">The .</param>
-	void loadSignal(Signal &si, Monitor1 *);
+	/// <param name="">The .</param>
+	void loadParametros(SubTramSpo2 *, Monitor1 *);
 	
 	/// <summary>
 	/// Determines whether this instance is load.

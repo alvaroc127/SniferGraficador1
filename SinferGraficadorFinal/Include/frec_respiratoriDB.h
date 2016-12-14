@@ -6,6 +6,8 @@
 #include "SubTramaImpedancia.h"
 #include "Monitor1.h"
 #include "StructDB.h"
+#include <sstream>
+#include <fstream>
 
 
 class frec_respiratoriDB
@@ -21,8 +23,9 @@ private:
 	int id;
 	std::vector<uint8_t> sig;
 	std::string SQLUpda = "UPDATE Frec_Respiratoria SET Impedancia = ? , Senal = ? WHERE ";
-	bool bandPara = false;
-	bool bandSig = false;
+	bool bandLoad = false;
+	std::fstream inFile;
+	std::string direcc = "C:\\ArchivosSignal\\";
 
 public:	
 	
@@ -32,7 +35,7 @@ public:
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
-	frec_respiratoriDB(SQLHANDLE, SQLHANDLE, SQLHANDLE);
+	frec_respiratoriDB(const SQLHANDLE & ,const  SQLHANDLE &,const  SQLHANDLE &);
 	
 
 	/// <summary>
@@ -49,20 +52,20 @@ public:
 	/// Sets the hande env.
 	/// </summary>
 	/// <param name="sql">The SQL.</param>
-	void setHandeEnv(SQLHANDLE);
+	void setHandeEnv(const SQLHANDLE &);
 
 	/// <summary>
 	/// Sets the hande con.
 	/// </summary>
 	/// <param name="">The .</param>
-	void setHandeCon(SQLHANDLE);
+	void setHandeCon(const SQLHANDLE &);
 
 
 	/// <summary>
 	/// Sets the hande con.
 	/// </summary>
 	/// <param name="">The .</param>
-	void setHandeState(SQLHANDLE);
+	void setHandeState(const SQLHANDLE &);
 	
 	/// <summary>
 	/// Loads the frec resource.
@@ -70,7 +73,7 @@ public:
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
-	void loadFrecRes(Store &, SubTramaImpedancia *, Monitor1 *);
+	void loadFrecRes(Monitor1 *);
 
 	/// <summary>
 	/// Shows the error.
@@ -125,6 +128,21 @@ public:
 	/// Backs the estad.
 	/// </summary>
 	void backEstad();
+
+
+	/// <summary>
+	/// Reads the file.
+	/// </summary>
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	/// <returns>vector</returns>
+	std::vector<uint8_t> readFileSig(const std::string &);
+
+	/// <summary>
+	/// Reads the file parameter.
+	/// </summary>
+	/// <param name="">The IP.</param>
+	void readFileParam(const std::string &);
 
 };
 

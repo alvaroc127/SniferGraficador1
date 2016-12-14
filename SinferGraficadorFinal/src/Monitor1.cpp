@@ -2,7 +2,7 @@
 
 
 
-Monitor1::Monitor1(SQLHANDLE envi ,SQLHANDLE con,SQLHANDLE  state) {
+Monitor1::Monitor1(const SQLHANDLE  &envi ,const SQLHANDLE &con,const SQLHANDLE  &state) {
 	this->sqlenvirot = envi;
 	this->sqlCon = con;
 	this->sqlstate = state;
@@ -65,9 +65,27 @@ void Monitor1::show_Error(unsigned int handle, const SQLHANDLE &han) {
 
 void Monitor1::Close() {
 	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
+	sqlstate = NULL;
+	/*
 	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlenvirot);
+	SQLFreeHandle(SQL_HANDLE_DBC, sqlCon);
+	sqlCon = NULL;
 	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+	sqlenvirot = NULL;
+	*/
+	/*
+	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
+	sqlstate = NULL;
+	SQLFreeStmt(sqlstate, SQL_CLOSE);
+	SQLFreeStmt(sqlstate, SQL_DROP);
+	SQLDisconnect(sqlCon);
+	SQLFreeConnect(sqlCon);
+	SQLFreeEnv(sqlenvirot);
+	SQLFreeHandle(SQL_HANDLE_DBC, sqlCon);
+	sqlCon = NULL;
+	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+	sqlenvirot = NULL;
+	*/
 }
 
 
@@ -89,17 +107,17 @@ std::string Monitor1::getDate(){
 }
 
 
-void Monitor1::setHandeEnv(SQLHANDLE envir) {
+void Monitor1::setHandeEnv(const SQLHANDLE  &envir) {
 	this->sqlenvirot = envir;
 }
 
 
-void Monitor1::setHandeCon(SQLHANDLE con) {
+void Monitor1::setHandeCon(const SQLHANDLE &con) {
 	this->sqlCon = con;
 }
 
 
 
-void Monitor1::setHandeState(SQLHANDLE stat) {
+void Monitor1::setHandeState(const SQLHANDLE &stat) {
 	this->sqlstate = stat;
 }

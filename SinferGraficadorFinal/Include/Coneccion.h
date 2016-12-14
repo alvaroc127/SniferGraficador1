@@ -27,6 +27,8 @@
 #include "StructDB.h"
 #include "SubtRamTemp.h"
 #include "SPO2BD.h"
+#include "GestorArchivo.h"
+#include "AlarmaIDBD.h"
 
 
 
@@ -34,15 +36,6 @@ class Conection
 {
 
 private:
-	/*
-	Ecg *ecg;
-	Monitor1 *mon;
-	AlarmaBD *alar;
-	frec_respiratoriDB *frec;
-	TemperaturaDB *tem;
-	Senal_Roja_Amarilla *sRa;
-	HabitacionDB *hB;
-	*/
 	SQLHANDLE sqlenvirot;
 	SQLHANDLE sqlCon;
 	SQLHANDLE sqlstate;
@@ -55,10 +48,14 @@ private:
 	AlarmaBD *abd = NULL;
 	SPO2BD *spoBD = NULL;
 	TemperaturaDB *tbd = NULL;
+	AlarmaIDBD *aidbd = NULL;
 	Store al;
+	GestorArchivo ga;
+	
 	std::string date;
 	std::string Ip;
 	bool open=false;
+	bool open1 = false;
 public:	
 	
 
@@ -83,8 +80,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	void insertaDatTab();
-
 	
+	/// <summary>
+	/// Loads the other dat.
+	/// </summary>
+	void loadOtherDat();
+
 	/// <summary>
 	/// Sets the ip.
 	/// </summary>
@@ -198,6 +199,15 @@ public:
 	/// Sets the headers.
 	/// </summary>
 	void setHeaders();
+	
+	/// <summary>
+	/// Determines whether this instance is conect2.
+	/// </summary>
+	/// <returns>
+	///   <c>true</c> if this instance is conect2; otherwise, <c>false</c>.
+	/// </returns>
+	bool isConect2();
+
 	};
 
 #endif

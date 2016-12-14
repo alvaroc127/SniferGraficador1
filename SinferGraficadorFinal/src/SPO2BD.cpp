@@ -13,24 +13,24 @@ SPO2BD::~SPO2BD()
 }
 
 
-SPO2BD::SPO2BD(SQLHANDLE envi, SQLHANDLE con, SQLHANDLE  state) {
+SPO2BD::SPO2BD(const SQLHANDLE  &envi,const  SQLHANDLE  &con,const  SQLHANDLE & state) {
 	this->sqlenvirot = envi;
 	this->sqlCon = con;
 	this->sqlstate = state;
 }
 
-void SPO2BD::setHandeEnv(SQLHANDLE envir) {
+void SPO2BD::setHandeEnv(const SQLHANDLE  &envir) {
 	this->sqlenvirot = envir;
 }
 
 
-void SPO2BD::setHandeCon(SQLHANDLE con) {
+void SPO2BD::setHandeCon(const SQLHANDLE  &con) {
 	this->sqlCon = con;
 }
 
 
 
-void SPO2BD::setHandeState(SQLHANDLE stat) {
+void SPO2BD::setHandeState(const SQLHANDLE  &stat) {
 	this->sqlstate = stat;
 }
 
@@ -50,24 +50,14 @@ void SPO2BD::show_Error(unsigned int handle, const SQLHANDLE &han) {
 
 void SPO2BD::Close() {
 	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
-	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlenvirot);
-	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+	sqlstate = NULL;
 }
 
 
-void SPO2BD::loadSPO2(Store &s,SubTramSpo2 *spo, Monitor1 *mon){
-	Signal sig;
+void SPO2BD::loadSPO2(Monitor1 *mon){
 	this->id = mon->getId();
-	this->frec_encia = spo->getFrecuencia();
-	this->desconocido = spo->getDato1();
-	for (int i = 0; i < s.mp.getSubTra().size(); i++) {
-		sig = s.mp.getSubTra().at(i)->datTram(sig);
-		std::cout <<"en ESPO2/////////////////"<<sig.tipo << std::endl;
-		if (sig.tipo == "SPO2Sign.txt") {
-			this->signa = sig.sign1;
-		}
-	}
+	signa = readFileSig(mon->getIp()+"\\SPO2Sign.bin");
+	readFileParam(mon->getIp() + "\\SPO2PARAM.txt");
 }
 
 
@@ -167,8 +157,46 @@ bool SPO2BD::isLoad() {
 }
 
 void SPO2BD::backEstad() {
-	bandPara = false;
-	bandSig = false;
+	this->frec_encia = 0;
+	this->desconocido = 0;
 	signa.clear();
-	signa.erase(signa.begin(), signa.end());
+}
+
+
+
+std::vector<uint8_t> SPO2BD::readFileSig(const std::string & ip ) {
+	std::vector<uint8_t> let;
+	char byte = 0;
+	inFile.open(direcc + ip, std::ifstream::in | std::ios::binary | std::ios::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile.get(byte);
+			let.push_back(byte);
+		}
+	}
+	inFile.close();
+	return let;
+}
+
+void SPO2BD::readFileParam(const std::string &ip) {
+	std::string frec;
+	std::string dat;
+	inFile.open(direcc + ip, std::ifstream::in | std::ifstream::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile >> frec;
+			if (frec != "") {
+				inFile >> dat;
+			}
+		}
+		this->frec_encia = atof(frec.c_str());
+		this->desconocido = atof(dat.c_str());
+	}
+	inFile.close();
 }

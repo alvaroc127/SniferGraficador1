@@ -146,6 +146,7 @@ void CapturaDeRed::startCapture() {
 
 
 int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const std::vector<uint8_t>  & datas , int pos) {
+	SubTramaECG * sue = NULL;
 	//cout << "esto es head" << head<<endl;
 	if (head == "1509d00") {
 		if(this->dat_time.empty()==false){
@@ -198,13 +199,15 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			mp1.setHead(he);
 			pos=mp1.clasifyData(datas, pos);
 			this->wait = true;
-			//if (alm.mpp.getFuente().empty() == true) {
-				//alm.mpp = mp1;
-				//co.setDate(dat_time);
-				//co.setIp(ip);
-				//cout << "se almaceno" << alm.mpp.getDataTime()<<"con co"<<co.getDataTime()<<" Y "<<co.getFuente() << endl;
-
-			//}
+			for (int i = 0; i < mp1.getSubTra().size() && sue == NULL; i++) {
+				sue = dynamic_cast<SubTramaECG *> (mp1.getSubTra().at(i));
+				if (sue != NULL) {
+					co.setDate(dat_time);
+					co.setIp(ip);
+					if(ga.searchIp(ip))almacenDB();
+					ga.clearFiles(ip);
+				}
+			}
 			if (guardarMPP(mp1)) {
 
 			}
@@ -282,11 +285,11 @@ int CapturaDeRed::confHead(const std::string &head, const std::string &ip,const 
 			}
 			else if (this->mpp.getFuente().empty() == false) {
 				mpp.clasifyData(datWait, posG);
-				if (alm.mpp.getFuente().empty() == true) {
-					alm.mpp = mpp;
-					co.setDate(dat_time);
-					co.setIp(ip);
-				}
+				//if (alm.mpp.getFuente().empty() == true) {
+				//	alm.mpp = mpp;
+				//	co.setDate(dat_time);
+				//	co.setIp(ip);
+			//	}
 				guardarMPP(mpp);
 				//co.inserRegisMPP(mpp);
 				mpp.getFuente().clear();
@@ -554,43 +557,14 @@ bool CapturaDeRed::guardarMA(MindrayAlarma &ma) {
 }
 
 void CapturaDeRed::almacenDB() {
-	std::string a;
 	if (!co.isOpen()) {
 		co.OpenCo();
 		cout << "ABRI LA BASE DE DATOS" << endl;
 	}
-	if (alm.ma.getDataTime().empty() == false && alm.mpp.getDataTime().empty() == false && alm.mp.getDataTime().empty() == false) {
-		co.setStore(alm);
-		co.setTimeStruc(this->ts);
-		co.loadDatTableMon();
-		//co.insertaDatTab();
-		// falta mecanismo de eliminacion  para las subtramas que estan en memoria.
-		cout << "entro en alamar" << endl;
-		alm.mp.setDtaTime(a);
-		alm.mpp.setDtaTime(a);
-		alm.ma.setDtaTime(a);
-		alm.mp.setFuente(a);
-		alm.mpp.setFuente(a);
-		alm.ma.setFuente(a);
+	if (!co.isConect2()) {
+		co.loadOtherDat();
 	}
-	else {
-		if (alm.ma.getDataTime().empty() == true && (alm.mpp.getDataTime().empty() == false && alm.mp.getDataTime().empty() == false)) {
-			co.setStore(alm);
-			co.setTimeStruc(this->ts);
-			co.loadDatTableMon();
-			co.insertSinAlarm();//no hay alarmas para guardar
-			alm.mp.setDtaTime(a);
-			alm.mpp.setDtaTime(a);
-			alm.ma.setDtaTime(a);
-			alm.mp.setFuente(a);
-			alm.mpp.setFuente(a);
-			alm.ma.setFuente(a);
-		}
-	}
-
-
-
-
-
-
+	co.setTimeStruc(this->ts);
+	co.loadDatTableMon();
+	co.insertaDatTab();
 }

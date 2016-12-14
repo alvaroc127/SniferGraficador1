@@ -76,34 +76,34 @@ Signal SubTramaMi::datTram(Signal & sig)
 	std::string var=joinHeader();
 
 	if (var == "16842753") {
-		sig.asignarTipo("ECGSig1.txt");
-		sig.tipo = "ECGSig1.txt";
+		sig.asignarTipo("ECGSig1.bin");
+		sig.tipo = "ECGSig1.bin";
 	
 		//getchar();
 	}
 	else if (var == "33619969") {
-		sig.asignarTipo("ECGSig2.txt");
-		sig.tipo = "ECGSig2.txt";
+		sig.asignarTipo("ECGSig2.bin");
+		sig.tipo = "ECGSig2.bin";
 	}
 	else if (var == "117506049") {
-		sig.asignarTipo("ECGSig3.txt");
-		sig.tipo = "ECGSig3.txt";
+		sig.asignarTipo("ECGSig3.bin");
+		sig.tipo = "ECGSig3.bin";
 	}
 	else if (var == "436240385") {
-		sig.asignarTipo("RESPSign.txt");
-		sig.tipo = "RESPSign.txt";
+		sig.asignarTipo("RESPSign.bin");
+		sig.tipo = "RESPSign.bin";
 	}
 	else if (var == "419495937") {
-		sig.asignarTipo("SPO2Sign.txt");
-		sig.tipo = "SPO2Sign.txt";
+		sig.asignarTipo("SPO2Sign.bin");
+		sig.tipo = "SPO2Sign.bin";
 	}
 	else if (var == "520126469") {
-		sig.asignarTipo("ROJASign.txt");
-		sig.tipo = "ROJASign.txt";
+		sig.asignarTipo("ROJASign.bin");
+		sig.tipo = "ROJASign.bin";
 	}
-	else if ( var == "520126469") {
-		sig.asignarTipo("AMARILLASign.txt");
-		sig.tipo = "AMARILLASign.txt";
+	else if ( var == "536903685") {
+		sig.asignarTipo("AMARILLASign.bin");
+		sig.tipo = "AMARILLASign.bin";
 	}
 	return sig;
 }

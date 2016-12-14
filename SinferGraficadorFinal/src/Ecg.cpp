@@ -2,7 +2,7 @@
 
 
 
-Ecg::Ecg(SQLHANDLE envi, SQLHANDLE con, SQLHANDLE  state) {
+Ecg::Ecg(const SQLHANDLE &envi,const  SQLHANDLE  &con, const SQLHANDLE  &state) {
 	this->sqlenvirot = envi;
 	this->sqlCon = con;
 	this->sqlstate = state;
@@ -21,45 +21,15 @@ Ecg::~Ecg() {
 }
 
 
-void Ecg::loadECG(Store  &st, Monitor1 *mon) {
-	Signal sig;
-	ECG ecg;
+void Ecg::loadECG(Monitor1 *mon) {
 	this->id = mon->getId();
-	date_sig = st.mpp.getDataTime().c_str();
-	std::cout << "catnidad de subtramas mindra Packet" << st.mp.getSubTra().size() << std::endl;
-	for (int i = 0; i < st.mp.getSubTra().size(); i++) {
-		sig = st.mp.getSubTra().at(i)->datTram(sig);
-		std::cout <<"EN ECG"<<sig.tipo << std::endl;
-		if (sig.tipo == "ECGSig1.txt") {
-			std::cout << "cargo una senial" << std::endl;
-			this->ECG1 = sig.sign1;
-		}
-		else if (sig.tipo == "ECGSig2.txt") {
-			std::cout << "cargo una senial" << std::endl;
-			this->ECG2 = sig.sign1;
-		}
-		else if (sig.tipo == "ECGSig3.txt") {
-			std::cout << "cargo una senial" << std::endl;
-			this->ECG3 = sig.sign1;
-		}
-	}
-	for (int a = 0; a < st.mpp.getSubTra().size(); a++) {
-		SubTramaECG * sue = dynamic_cast<SubTramaECG *> (st.mpp.getSubTra().at(a));
-		if (sue != NULL) {
-			ecg = sue->datTram(ecg);
-			this->aVR = ecg.aVR;
-			this->aVL = ecg.aVL;
-			this->fre_Card = ecg.frecuencia;
-			this->I = ecg.I;
-			this->II = ecg.II;
-			this->III = ecg.III;
-			this->V = ecg.V;
-			this->CVP = ecg.CVP;
-			this->aVF = ecg.aVF;
-			std::cout << "se cargaraon" << aVR <<" "<< aVL<<" "<< fre_Card<<" "<< I <<" "<< II <<" "<< III <<" "<< V <<" "<< CVP <<" "<< aVF <<" "<< std::endl;
-		}
-	}
-
+	ECG1.clear();
+	this->ECG1 = readFileSig(mon->getIp()+"\\ECGSig1.bin");
+	ECG2.clear();
+	this->ECG2 = readFileSig(mon->getIp()+"\\ECGSig2.bin");
+	ECG3.clear();
+	this->ECG3 = readFileSig(mon->getIp()+"\\ECGSig3.bin");
+	readFileParam(mon->getIp() + "\\ECGPARAM.txt");
 }
 
 
@@ -71,25 +41,42 @@ void Ecg::show_Error(unsigned int handle, const SQLHANDLE &han) {
 }
 
 void Ecg::Close() {
-	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
+	SQLFreeHandle(SQL_HANDLE_STMT,sqlstate);
+	sqlstate = NULL;
+	/*
 	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlenvirot);
+	SQLFreeHandle(SQL_HANDLE_DBC, sqlCon);
+	sqlCon = NULL;
 	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+		sqlenvirot = NULL;
+	*/
+	/*
+	RETCODE tc;
+	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
+	sqlstate = NULL;
+	SQLFreeStmt(sqlstate,SQL_CLOSE);
+	SQLFreeStmt(sqlstate, SQL_DROP);
+	SQLDisconnect(sqlCon);
+	SQLFreeConnect(sqlCon);
+	SQLFreeEnv(sqlenvirot);
+	tc=SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+	sqlenvirot = NULL;
+	*/
 }
 
 
-void Ecg::setHandeEnv(SQLHANDLE envir) {
+void Ecg::setHandeEnv(const SQLHANDLE &envir) {
 	this->sqlenvirot = envir;
 }
 
 
-void Ecg::setHandeCon(SQLHANDLE con) {
+void Ecg::setHandeCon(const SQLHANDLE &con) {
 	this->sqlCon = con;
 }
 
 
 
-void Ecg::setHandeState(SQLHANDLE stat) {
+void Ecg::setHandeState(const SQLHANDLE &stat) {
 	this->sqlstate = stat;
 }
 
@@ -105,7 +92,7 @@ void Ecg::insertECG() {
 				Close();
 			}
 			sprintf_s(sqlupda, "id = %i AND HoraSenal = '%i/%i/%i %i:%i:%i.%i';", id, st.year, st.month, st.day, st.hour, st.minute, st.second, st.fraction);
-
+			
 			//if (aVR != 0) {
 				rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVR, sizeof(float), &a);
 				if (SQL_SUCCESS != rc) {
@@ -214,7 +201,6 @@ void Ecg::insertECG() {
 			//	}
 			
 			//}
-
 			if (ECG1.empty()==false) {
 				h = ECG1.size() - 1;
 				rc = SQLBindParameter(sqlstate, 8, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &ECG1[0], ECG1.size()-1, &h);
@@ -231,7 +217,7 @@ void Ecg::insertECG() {
 				}
 			}
 			if (ECG2.empty()==false) {
-				h = ECG2.size() - 1;
+				i = ECG2.size() - 1;
 				rc = SQLBindParameter(sqlstate, 9, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &ECG2[0], ECG2.size()-1, &i);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
@@ -246,7 +232,7 @@ void Ecg::insertECG() {
 				}
 			}
 			if (ECG3.empty()==false) {
-				h = ECG3.size() - 1;
+				j = ECG3.size() - 1;
 				rc = SQLBindParameter(sqlstate, 10, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &ECG3[0], ECG3.size()-1, &j);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
@@ -365,4 +351,72 @@ std::vector<uint8_t> Ecg::getEcg2(){
 
 std::vector<uint8_t> Ecg::getEcg3() {
 	return ECG3;
+}
+
+std::vector<uint8_t> Ecg::readFileSig(const std::string &ip) {
+	std::vector<uint8_t> let;
+	char byte=0;
+	inFile.open(direcc + ip, std::ifstream::in | std::ios::binary | std::ios::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile.get(byte);
+				let.push_back((uint8_t)byte);
+		}
+	}
+	inFile.close();
+	return let;
+}
+
+void Ecg::readFileParam(const std::string  &ip) {
+	std::string lin;
+	std::string aVR;
+	std::string aVL;
+	std::string frecuencia;
+	std::string I;
+	std::string II;
+	std::string III;
+	std::string V;
+	std::string CVP;
+	std::string  aVF;
+	inFile.open(direcc + ip, std::ifstream::in | std::ifstream::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile >> aVR;
+				if (aVR != "") {
+					inFile >> aVL >> frecuencia >> I >> II >> III >> V >> CVP >> aVF;
+				}
+		}
+		this->aVR = atof(aVR.c_str());
+		this->aVL = atof(aVL.c_str());
+		this->fre_Card = atof(frecuencia.c_str());
+		this->I = atof(I.c_str());
+		this->II = atof(II.c_str());
+		this->III = atof(III.c_str());
+		this->V = atof(V.c_str());
+		this->CVP = atof(CVP.c_str());
+		this->aVF = atof(aVF.c_str());
+	}
+	inFile.close();
+}
+
+
+void Ecg::backEstad() {
+	ECG1.clear();
+	ECG2.clear();
+	ECG3.clear();
+	this->aVR = 0;
+	this->aVL = 0;
+	this->fre_Card = 0;
+	this->I = 0;
+	this->II = 0;
+	this->III = 0;
+	this->V = 0;
+	this->CVP = 0;
+	this->aVF = 0;
 }

@@ -149,9 +149,19 @@ public:
 
 
 	int sizeFile();
-
-	void Delete();
-
+	
+	/// <summary>
+	/// Clears the files.
+	/// </summary>
+	/// <param name="">The .</param>
+	void clearFiles(const  std::string &);
+	
+	/// <summary>
+	/// Sizes the file1.
+	/// </summary>
+	/// <param name="">The .</param>
+	/// <returns></returns>
+	int sizeFile1(const std::string &);
 };
 
 

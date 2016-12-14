@@ -77,8 +77,8 @@ int SubTramaArt_AP::runData(const std::vector<uint8_t> &datas,int pos) {
 }
 
 int SubTramaArt_AP::loadHight(const std::vector<uint8_t> &datas,int pos) {
-	printf(" valor de hex %x ", datas.at(pos));
-	printf(" %x\n", datas.at(pos + 1));
+	//printf(" valor de hex %x ", datas.at(pos));
+	//printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->alto = (int)sal;
 	return ++pos;
@@ -89,13 +89,12 @@ int SubTramaArt_AP::loadLow(const std::vector<uint8_t> &datas, int pos) {
 	//printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->bajo = (int)sal;
-	//std::cout << "esto vale impedancia " << bajo << std::endl;
 	return ++pos;
 }
 
 int SubTramaArt_AP::loadParentesis(const std::vector<uint8_t> &datas,int pos) {
-	printf(" valor de hex %x ", datas.at(pos));
-	printf(" %x\n", datas.at(pos + 1));
+	//printf(" valor de hex %x ", datas.at(pos));
+	//printf(" %x\n", datas.at(pos + 1));
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->parentesis = (int)sal;
 	return ++pos;

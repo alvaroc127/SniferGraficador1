@@ -1,7 +1,7 @@
 #include "..\Include\frec_respiratoriDB.h"
 
 
-frec_respiratoriDB::frec_respiratoriDB(SQLHANDLE envi, SQLHANDLE con, SQLHANDLE  state) {
+frec_respiratoriDB::frec_respiratoriDB(const SQLHANDLE  &envi,const  SQLHANDLE & con, const SQLHANDLE & state) {
 	this->sqlenvirot = envi;
 	this->sqlCon = con;
 	this->sqlstate = state;
@@ -34,42 +34,30 @@ void frec_respiratoriDB::show_Error(unsigned int handle, const SQLHANDLE &han) {
 
 void frec_respiratoriDB::Close() {
 	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
-	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlenvirot);
-	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+	sqlstate = NULL;
 }
 
 
-void frec_respiratoriDB::setHandeEnv(SQLHANDLE envir) {
+void frec_respiratoriDB::setHandeEnv(const SQLHANDLE & envir) {
 	this->sqlenvirot = envir;
 }
 
 
-void frec_respiratoriDB::setHandeCon(SQLHANDLE con) {
+void frec_respiratoriDB::setHandeCon(const SQLHANDLE  & con) {
 	this->sqlCon = con;
 }
 
 
 
-void frec_respiratoriDB::setHandeState(SQLHANDLE stat) {
+void frec_respiratoriDB::setHandeState(const SQLHANDLE & stat) {
 	this->sqlstate = stat;
 }
 
 
-void frec_respiratoriDB::loadFrecRes(Store &s, SubTramaImpedancia *imp, Monitor1 *mon) {
-	Signal sig;
-	this->dat_Sig = s.mpp.getDataTime().c_str();
-	this->impedancia = imp->getimpe();
+void frec_respiratoriDB::loadFrecRes(Monitor1 *mon) {
 	this->id = mon->getId();
-	for (int i = 0; i < s.mp.getSubTra().size(); i++) {
-		sig = s.mp.getSubTra().at(i)->datTram(sig);
-		std::cout << "ES DE ESTE TIIPO resp SIgn" << sig.tipo << std::endl;
-		std::cout << "tiene esta cantidad datos" << sig.sign1.size()<<std::endl;
-		if (sig.tipo == "RESPSign.txt") {
-			this->sig = sig.sign1;
-			std::cout << "tiene esta cantidad datos 2##" << this->sig.size() << std::endl;
-		}
-	}
+	this->sig = readFileSig(mon->getIp()+"\\RESPSign.bin");
+	readFileParam(mon->getIp()+"\\IMPEPARAM.txt");
 }
 
 void frec_respiratoriDB::insertTableFrec_Resp() {
@@ -119,41 +107,55 @@ void frec_respiratoriDB::insertTableFrec_Resp() {
 void frec_respiratoriDB::loadSignal(Signal &sig, Monitor1 *mon) {
 	this->id = mon->getId();
 	this->sig = sig.sign1;
-	bandSig = true;
+	
 }
 
 
 void frec_respiratoriDB::LoadParam(SubTramaImpedancia *im, Monitor1 * mon) {
 	this->impedancia = im->getimpe();
-	bandPara = true;
 }
 
 bool frec_respiratoriDB::isLoad() {
-	bool retur = false;
-	if (bandPara == true && bandSig == true) {
-		retur = true;
-	}
-	else {
-		if (true == bandPara && bandSig == false) {
-			retur = true;
-		}
-		else {
-			if (false == bandPara && bandSig == false) {
-				retur = false;
-			}
-			else {
-				if (false == bandPara && bandSig == true) {
-					retur = true;
-				}
-			}
-		}
-	}
-	return retur;
+	return bandLoad;
 }
 
 void frec_respiratoriDB::backEstad() {
-	bandPara = false;
-	bandSig = false;
+	impedancia = 0;
 	sig.clear();
-	sig.erase(sig.begin(), sig.end());
+}
+
+
+std::vector<uint8_t> frec_respiratoriDB::readFileSig(const std::string &ip) {
+	std::vector<uint8_t> let;
+	char byte = 0;
+	inFile.open(direcc + ip, std::ifstream::in | std::ios::binary | std::ios::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile.get(byte);
+			let.push_back(byte);
+		}
+	}
+	inFile.close();
+	return let;
+}
+
+
+void frec_respiratoriDB::readFileParam(const std::string &ip) {
+	std::string imp;
+	inFile.open(direcc + ip, std::ifstream::in | std::ifstream::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile >> imp;
+		}
+		if (imp != "") {
+			this->impedancia = atof(imp.c_str());
+		}
+	}
+	inFile.close();
 }

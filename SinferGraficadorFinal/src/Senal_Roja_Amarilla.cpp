@@ -1,6 +1,6 @@
 #include "..\Include\Senal_Roja_Amarilla.h"
 
-Senal_Roja_Amarilla::Senal_Roja_Amarilla(SQLHANDLE envi, SQLHANDLE con, SQLHANDLE  state) {
+Senal_Roja_Amarilla::Senal_Roja_Amarilla(const SQLHANDLE  & envi,const  SQLHANDLE & con,const  SQLHANDLE &state) {
 	this->sqlenvirot = envi;
 	this->sqlCon = con;
 	this->sqlstate = state;
@@ -19,39 +19,32 @@ Senal_Roja_Amarilla::~Senal_Roja_Amarilla()
 }
 
 
-void Senal_Roja_Amarilla::loadSrA(Store &s, SubTramaArt_AP *ap, Monitor1 * mon) {
-	Signal sig;
-	this->dateTime = s.mpp.getDataTime().c_str();
+void Senal_Roja_Amarilla::loadSArt(Monitor1 * mon) {
 	this->id = mon->getId();
-	if (ap->isBand()) {
-		this->senial = 1;//amarilla 
-	}
-	else {
-		this->senial = 2;//roja
-	}
-	this->max = ap->getAlto();
-	this->min = ap->getBajo();
-	this->parentesis = ap->getParentesis();
-	for (int i = 0; i < s.mp.getSubTra().size(); i++) {
-		sig = s.mp.getSubTra().at(i)->datTram(sig);
-		if (sig.tipo == "ROJASign.txt" || sig.tipo == "AMARILLASign.txt") {
-			this->sig = sig.sign1;
-		}
-	}
+	readFileParam(mon->getIp()+"\\ART.txt");
+	this->sig=readFileSig(mon->getIp()+"\\ROJASign.bin");
+	this->senial = 2;
 }
 
-void Senal_Roja_Amarilla::setHandeEnv(SQLHANDLE envir) {
+void Senal_Roja_Amarilla::loadSAP(Monitor1 *mon) {
+	this->id = mon->getId();
+	readFileParam(mon->getIp() + "\\AP.txt");
+	this->sig = readFileSig(mon->getIp() + "\\AMARILLASign.bin");
+	this->senial = 1;
+}
+
+void Senal_Roja_Amarilla::setHandeEnv(const SQLHANDLE  & envir) {
 	this->sqlenvirot = envir;
 }
 
 
-void Senal_Roja_Amarilla::setHandeCon(SQLHANDLE con) {
+void Senal_Roja_Amarilla::setHandeCon(const SQLHANDLE & con) {
 	this->sqlCon = con;
 }
 
 
 
-void Senal_Roja_Amarilla::setHandeState(SQLHANDLE stat) {
+void Senal_Roja_Amarilla::setHandeState(const SQLHANDLE  & stat) {
 	this->sqlstate = stat;
 }
 
@@ -71,55 +64,50 @@ void Senal_Roja_Amarilla::show_Error(unsigned int handle, const SQLHANDLE &han) 
 
 void Senal_Roja_Amarilla::Close() {
 	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
-	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlenvirot);
-	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+	sqlstate = NULL;
 }
 
 void Senal_Roja_Amarilla::insertTabSignalRed_Yell() {
 	RETCODE rc;
-	char senten[100];
-	char sqlupda[100];
+	char senten[150];
+	char sqlupda[150];
 	std::string aux = SQLUPDATE;
 	SQLLEN a = 0, b = 0, c = 0, d = 0, e = 0;
-	sprintf_s(senten, "INSERT INTO Senal_Roja_Amarilla (id , HoraSenal ) values (%i,'%i/%i/%i %i:%i:%i.%i')", id , st.year, st.month, st.day, st.hour, st.minute, st.second, st.fraction);
+	sprintf_s(senten, "INSERT INTO Senal_Roja_Amarilla (id , HoraSenal, TipoSenal ) values (%i ,'%i/%i/%i %i:%i:%i.%i', %i)", id , st.year, st.month, st.day, st.hour, st.minute, st.second, st.fraction, senial);
 	if (SQL_SUCCESS != SQLExecDirect(sqlstate, (SQLCHAR *)senten, SQL_NTS)) {
 		show_Error(SQL_HANDLE_STMT, sqlstate);
 		Close();
 	}
-	sprintf_s(sqlupda, "id = %i AND HoraSenal = '%i/%i/%i %i:%i:%i.%i';", id, st.year, st.month, st.day, st.hour, st.minute, st.second, st.fraction);
-	rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER, sizeof(int), 0, &this->senial, sizeof(int), &a);
-	if (rc != SQL_SUCCESS) {
-		show_Error(SQL_HANDLE_STMT, sqlstate);
-		std::cout << "aqui  entro 1" << std::endl;
-	}
-	rc = SQLBindParameter(sqlstate, 2, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &this->max, sizeof(float), &b);
+	sprintf_s(sqlupda, "id = %i AND HoraSenal = '%i/%i/%i %i:%i:%i.%i' AND TipoSenal = %i;", id, st.year, st.month, st.day, st.hour, st.minute, st.second, st.fraction,senial);
+	
+
+	rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &this->max, sizeof(float), &b);
 	if (rc != SQL_SUCCESS) {
 		show_Error(SQL_HANDLE_STMT, sqlstate);
 		std::cout << "aqui  entro 1" << std::endl;
 	}
 
-	rc = SQLBindParameter(sqlstate, 3, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &this->min, sizeof(float), &c);
+	rc = SQLBindParameter(sqlstate, 2, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &this->min, sizeof(float), &c);
 	if (rc != SQL_SUCCESS) {
 		show_Error(SQL_HANDLE_STMT, sqlstate);
 		std::cout << "aqui  entro 1" << std::endl;
 	}
 
-	rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &this->parentesis, sizeof(float), &d);
+	rc = SQLBindParameter(sqlstate, 3, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &this->parentesis, sizeof(float), &d);
 	if (rc != SQL_SUCCESS) {
 		show_Error(SQL_HANDLE_STMT, sqlstate);
 		std::cout << "aqui  entro 1" << std::endl;
 	}
 	if (sig.empty() == false) {
 		d = sig.size() - 1;
-		rc = SQLBindParameter(sqlstate, 5, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &sig[0], sig.size() - 1, &d);
+		rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &sig[0], sig.size() - 1, &d);
 		if (SQL_SUCCESS != rc) {
 			show_Error(SQL_HANDLE_STMT, sqlstate);
 			std::cout << "aqui  entro 4" << std::endl;
 		}
 	}
 	else {
-		rc = SQLBindParameter(sqlstate, 5, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, NULL, 0, &d);
+		rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, NULL, 0, &d);
 		if (SQL_SUCCESS != rc) {
 			show_Error(SQL_HANDLE_STMT, sqlstate);
 			std::cout << "aqui  entro 4" << std::endl;
@@ -178,8 +166,55 @@ bool Senal_Roja_Amarilla::isLoad() {
 }
 
 void Senal_Roja_Amarilla::backEstad() {
-	bandPara = false;
-	bandSig = false;
+	this->max = 0;
+	this->min = 0;
+	this->parentesis = 0;
+	this->senial = NULL;
 	sig.clear();
-	sig.erase(sig.begin(), sig.end());
 }
+
+
+std::vector<uint8_t> Senal_Roja_Amarilla::readFileSig(const std::string &ip) {
+	std::vector<uint8_t> let;
+	char byte = 0;
+	inFile.open(direcc + ip, std::ifstream::in | std::ios::binary | std::ios::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile.get(byte);
+			let.push_back(byte);
+		}
+	}
+	inFile.close();
+	return let;
+}
+
+void Senal_Roja_Amarilla::readFileParam(const std::string  &ip) {
+	std::string max;
+	std::string min;
+	std::string parentesis;
+	std::string tipo;
+	inFile.open(direcc + ip, std::ifstream::in | std::ifstream::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile >> max;
+			if (max != "") {
+				inFile >> min >> parentesis >> tipo;
+			}
+		}
+		if (max != "") {
+			this->max = atof(max.c_str());
+			this->min = atof(min.c_str());
+			this->parentesis = atof(parentesis.c_str());
+			this->senial = atoi(tipo.c_str());
+		}
+	}
+	inFile.close();
+}
+
+

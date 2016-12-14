@@ -2,7 +2,8 @@
 #define _TEMPERATURABD_
 #pragma once
 
-
+#include <sstream>
+#include <fstream>
 #include <vector>
 #include "StructDB.h"
 #include "SubtRamTemp.h"
@@ -22,13 +23,15 @@ private:
 	float T3;
 	int id;
 	std::string SQLUPDATE = "UPDATE Temperatura SET T1 = ? , T2  = ?, TD = ? WHERE ";
+	std::string direcc = "C:\\ArchivosSignal\\";
+	std::fstream inFile;
 public:	
 	
 	/// <summary>
 	/// Initializes a new instance of the <see cref="TemperaturaDB"/> class.
 	/// </summary>
 	/// <param name="cb">The cb.</param>
-	TemperaturaDB(SQLHANDLE, SQLHANDLE, SQLHANDLE);
+	TemperaturaDB(const SQLHANDLE &,const  SQLHANDLE &,const  SQLHANDLE &);
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="TemperaturaDB"/> class.
@@ -45,27 +48,27 @@ public:
 	/// Gets the default SQL.
 	/// </summary>
 	/// <returns></returns>
-	void loadTemp(Store & , SubtRamTemp *, Monitor1 *);
+	void loadTemp( Monitor1 *);
 
 
 	/// <summary>
 	/// Sets the hande env.
 	/// </summary>
 	/// <param name="envir">The envir.</param>
-	void setHandeEnv(SQLHANDLE envir);
+	void setHandeEnv(const SQLHANDLE &);
 
 	/// <summary>
 	/// Sets the hande con.
 	/// </summary>
 	/// <param name="con">The con.</param>
-	void setHandeCon(SQLHANDLE con);
+	void setHandeCon(const SQLHANDLE &);
 
 
 	/// <summary>
 	/// Sets the state of the hande.
 	/// </summary>
 	/// <param name="stat">The stat.</param>
-	void setHandeState(SQLHANDLE stat);
+	void setHandeState(const SQLHANDLE &);
 
 	/// <summary>
 	/// Sets the time struc.
@@ -102,6 +105,19 @@ public:
 	///The load signal
 	///</sumary>
 	void loadSignal(Signal &, Monitor1 *);
+
+	
+
+	/// <summary>
+	/// Reads the file parameter.
+	/// </summary>
+	/// <param name="">The IP.</param>
+	void readFileParam(const std::string &);
+
+	/// <summary>
+	/// Backs the estad.
+	/// </summary>
+	void backEstad();
 	
 
 };

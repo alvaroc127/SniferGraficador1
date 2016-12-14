@@ -3,6 +3,8 @@
 #pragma once
 #include "SubTramaParam.h"
 #include "SubTramaMetod.h"
+
+
 /// <summary>
 /// Class SubTramaArt_Ap
 /// </summary>

@@ -8,6 +8,8 @@
 #include <sqlext.h>
 #include <vector>
 #include <string>
+#include <sstream>
+#include <fstream>
 #include "StructDB.h"
 #include "Monitor1.h"
 #include "SubTramaECG.h"
@@ -37,6 +39,8 @@ private:
 	TIMESTAMP_STRUCT st;
 	std::string SQLUPDATE = "update ECG SET  aVR = ?, aVL = ?, Frec_Cardi = ?, I = ?, II = ?, III = ?, V = ? , ECG1 = ?, ECG2  = ?, ECG3 = ?, aVF = ?, CVPs = ?  WHERE ";
 	std::string SQLUPDATE1 = "update ECG SET  aVR = ?, aVL = ?, Frec_Cardi = ?, I = ?, II = ?, III = ? , aVF = ?, CVPs = ? WHERE id = ? AND HoraSenal = ?";
+	std::string direcc = "C:\\ArchivosSignal\\";
+	std::fstream inFile;
 
 public:
 		
@@ -46,7 +50,7 @@ public:
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
 	/// <param name="">The .</param>
-	Ecg(SQLHANDLE, SQLHANDLE, SQLHANDLE);
+	Ecg(const SQLHANDLE &, const SQLHANDLE &,const SQLHANDLE &);
 	
 
 	/// <summary>
@@ -65,7 +69,7 @@ public:
 	/// </summary>
 	/// <param name="">The .</param>
 	/// <returns></returns>
-	void loadECG(Store &s, Monitor1 *);
+	void loadECG( Monitor1 *);
 
 
 	/// <summary>
@@ -178,20 +182,20 @@ public:
 	/// Sets the hande env.
 	/// </summary>
 	/// <param name="sql">The SQL.</param>
-	void setHandeEnv(SQLHANDLE);
+	void setHandeEnv(const SQLHANDLE &);
 
 	/// <summary>
 	/// Sets the hande con.
 	/// </summary>
 	/// <param name="">The .</param>
-	void setHandeCon(SQLHANDLE);
+	void setHandeCon(const SQLHANDLE &);
 
 
 	/// <summary>
 	/// Sets the hande con.
 	/// </summary>
 	/// <param name="">The .</param>
-	void setHandeState(SQLHANDLE);
+	void setHandeState(const SQLHANDLE &);
 
 
 	/// <summary>
@@ -212,9 +216,25 @@ public:
 	/// </summary>
 	/// <param name="st">The st.</param>
 	void setTimeStruc(const TIMESTAMP_STRUCT &st);
-
 	
-
+	/// <summary>
+	/// Reads the file.
+	/// </summary>
+	/// <param name="">The .</param>
+	/// <param name="">The .</param>
+	/// <returns>vector</returns>
+	std::vector<uint8_t> readFileSig(const std::string &);
+	
+	/// <summary>
+	/// Reads the file parameter.
+	/// </summary>
+	/// <param name="">The IP.</param>
+	void readFileParam(const std::string & );
+		
+	/// <summary>
+	/// Backs the estad.
+	/// </summary>
+	void backEstad();
 
 };
 

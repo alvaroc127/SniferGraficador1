@@ -7,7 +7,9 @@
 
 
 
-
+/// <summary>
+/// structura impedancia
+/// </summary>
 struct Impedancia {
 	int impedanciaX2;
 	std::string tipo;
@@ -18,7 +20,9 @@ struct Impedancia {
 
 
 
-
+/// <summary>
+/// arterial struct
+/// </summary>
 struct Art {
 	int alto;
 	int bajo;
@@ -30,7 +34,9 @@ struct Art {
 	}
 };
 
-
+/// <summary>
+/// ap struct
+/// </summary>
 struct Ap {
 	int alto;
 	int bajo;
@@ -43,7 +49,9 @@ struct Ap {
 };
 
 
-
+/// <summary>
+/// ECG struct
+/// </summary>
 struct ECG {
 	double aVF;
 	double aVL;
@@ -60,6 +68,9 @@ struct ECG {
 	}
 };
 
+/// <summary>
+/// Spo2 struct
+/// </summary>
 struct SPO2 {
 	int dato1;
 	int frecuencia;
@@ -69,6 +80,9 @@ struct SPO2 {
 	}
 };
 
+/// <summary>
+/// temp struct
+/// </summary>
 struct Temp {
 	double T1;
 	double T2;
@@ -79,7 +93,9 @@ struct Temp {
 	}
 };
 
-
+/// <summary>
+/// represent signal of 
+/// </summary>
 struct Signal {
 	std::vector<uint8_t> sign1;
 	std::string tipo;

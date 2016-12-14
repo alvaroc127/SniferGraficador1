@@ -12,7 +12,7 @@ TemperaturaDB::~TemperaturaDB()
 }
 
 
-TemperaturaDB::TemperaturaDB(SQLHANDLE envi, SQLHANDLE con, SQLHANDLE  state) {
+TemperaturaDB::TemperaturaDB(const SQLHANDLE &envi,const  SQLHANDLE &con,const  SQLHANDLE  &state) {
 	this->sqlenvirot = envi;
 	this->sqlCon = con;
 	this->sqlstate = state;
@@ -20,26 +20,23 @@ TemperaturaDB::TemperaturaDB(SQLHANDLE envi, SQLHANDLE con, SQLHANDLE  state) {
 }
 
 
-void TemperaturaDB::loadTemp(Store &st, SubtRamTemp *sun, Monitor1 *mon) {
+void TemperaturaDB::loadTemp(Monitor1 *mon) {
 	this->id = mon->getId();
-	this->dat_Sig = st.mpp.getDataTime();
-	this->T1 = sun->getT1();
-	this->T2 = sun->getT2();
-	this->T3 = sun->getTD();
+	readFileParam(mon->getIp() + "\\TEMPPARAM.txt");
 }
 
-void TemperaturaDB::setHandeEnv(SQLHANDLE envir) {
+void TemperaturaDB::setHandeEnv(const SQLHANDLE & envir) {
 	this->sqlenvirot = envir;
 }
 
 
-void TemperaturaDB::setHandeCon(SQLHANDLE con) {
+void TemperaturaDB::setHandeCon(const SQLHANDLE & con) {
 	this->sqlCon = con;
 }
 
 
 
-void TemperaturaDB::setHandeState(SQLHANDLE stat) {
+void TemperaturaDB::setHandeState(const SQLHANDLE &stat) {
 	this->sqlstate = stat;
 }
 
@@ -59,9 +56,7 @@ void TemperaturaDB::show_Error(unsigned int handle, const SQLHANDLE &han) {
 
 void TemperaturaDB::Close() {
 	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
-	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlenvirot);
-	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
+	sqlstate = NULL;
 }
 
 
@@ -115,4 +110,39 @@ void TemperaturaDB::loadParam(SubtRamTemp  *sub, Monitor1 *mon) {
 
 void TemperaturaDB::loadSignal(Signal &sig, Monitor1 *mon) {
 	this->id = mon->getId();
+}
+
+
+
+
+void TemperaturaDB::readFileParam(const std::string & ip) {
+	std::string T1;
+	std::string T2;
+	std::string TD;
+	inFile.open(direcc + ip, std::ifstream::in | std::ifstream::_Nocreate);
+	if (!inFile.is_open()) {
+		std::cout << "no se pudo abrir" << direcc + ip << std::endl;
+	}
+	else {
+		while (!inFile.eof()) {
+			inFile >>T1;
+			if (T1 != "") {
+				inFile >> T2 >> TD;
+			}
+		}
+		if (T1 != "") {
+			this->T1 = atof(T1.c_str());
+			this->T2 = atof(T2.c_str());
+			this->T3 = atof(TD.c_str());
+		}
+	}
+	inFile.close();
+}
+
+
+void TemperaturaDB::backEstad() {
+	this->id = 0;
+	this->T1 = 0;
+	this->T2 = 0;
+	this->T3 = 0;
 }

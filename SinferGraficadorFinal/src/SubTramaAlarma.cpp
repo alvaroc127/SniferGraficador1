@@ -30,8 +30,6 @@ void SubTramaAlarma::cargarMensaje(const std::vector<uint8_t> &datas, int pos, i
 	for (int i = 4; i <tam;i++) {
 		if (cont<getTam()) {
 			mens += (char)datas.at(pos++);
-			printf(" tamaño hex %x",this->tam[0]);
-			printf("%x\n", this->tam[1]);
 			cont++;
 		}
 		else  if(cont>=getTam() && getCant()>1){

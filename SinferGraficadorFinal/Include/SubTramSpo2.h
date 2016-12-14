@@ -3,6 +3,7 @@
 #pragma once
 #include "SubTramaParam.h"
 #include "SubTramaMetod.h"
+
 /// <summary>
 /// Class SubTramSpo2
 /// </summary>

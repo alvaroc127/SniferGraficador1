@@ -39,31 +39,31 @@ bool GestorArchivo::crearArchivo(const std::string  &ip) {
 	_mkdir(dir.c_str());
 	std::ofstream creatArch;
 
-	creatArch.open(dir +"\\"  + "ECGSig1.txt");
+	creatArch.open(dir +"\\"  + "ECGSig1.bin");
 	resul = !creatArch ? true : false ;
 	creatArch.close();
 
-	creatArch.open(dir + "\\" + "ECGSig2.txt");
+	creatArch.open(dir + "\\" + "ECGSig2.bin");
 	resul = !creatArch ? true : false;
 	creatArch.close();
 
-	creatArch.open(dir + "\\" + "ECGSig3.txt");
+	creatArch.open(dir + "\\" + "ECGSig3.bin");
 	resul = !creatArch ? true : false;
 	creatArch.close();
 
-	creatArch.open(dir + "\\" + "RESPSign.txt");
+	creatArch.open(dir + "\\" + "RESPSign.bin");
 	resul = !creatArch ? true : false;
 	creatArch.close();
 
-	creatArch.open(dir + "\\" + "SPO2Sign.txt");
+	creatArch.open(dir + "\\" + "SPO2Sign.bin");
 	resul = !creatArch ? true : false;
 	creatArch.close();
 
-	creatArch.open(dir + "\\" + "ROJASign.txt");
+	creatArch.open(dir + "\\" + "ROJASign.bin");
 	resul = !creatArch ? true : false;
 	creatArch.close();
 
-	creatArch.open(dir + "\\" + "AMARILLASign.txt");
+	creatArch.open(dir + "\\" + "AMARILLASign.bin");
 	resul = !creatArch ? true : false;
 	creatArch.close();
 
@@ -133,15 +133,14 @@ Signal GestorArchivo::getSignal() {
 */
 
 void GestorArchivo::EscribirDatSig(const Signal & sig, MindrayPacket & mp) {
-	std::ofstream outArc(direcc+"\\"+mp.getFuente()+"\\" + sig.tipo, std::ios::app | std::ios::_Nocreate);
+	std::fstream outArc(direcc + "\\" + mp.getFuente() + "\\" + sig.tipo, std::ios::app | std::ios::binary | std::ios::_Nocreate);
 	if (!outArc) {
 		std::cout << direcc + "\\" + mp.getFuente() +"\\1" + sig.tipo << std::endl;
 		//getchar();
 	}
 	for (int i = 0; i < sig.sign1.size();i++) {
-		outArc <<sig.sign1.at(i);
+		outArc.put(sig.sign1.at(i));
 	}
-	outArc << std::endl;
 	outArc.close();
 }
 
@@ -197,8 +196,13 @@ void GestorArchivo::EscribirDatArt(const Art &art, MindrayParametros & mpp) {
 		std::cout << direcc + "\\" + mpp.getFuente() + "\\4" + art.tipo << std::endl;
 		//getchar();
 	}
-
-
+	outArc << art.alto;
+	outArc << " ";
+	outArc << art.bajo;
+	outArc << " ";
+	outArc << art.parentesis;
+	outArc << " ";
+	outArc << art.band;
 	outArc << std::endl;
 	outArc.close();
 
@@ -270,6 +274,71 @@ void GestorArchivo::EscribirDatALarma(std::vector<std::string> mensajes, Mindray
 int GestorArchivo::sizeFile() {
 	int tam = 0;
 	this->inEN.open(direcc1, std::ifstream::in);
+	if (!inEN.is_open()) {
+
+	}
+	else {
+		tam = int(inEN.tellg());
+		inEN.seekg(0, std::ios::end);
+		tam = (int(inEN.tellg()) - tam);
+	}
+	inEN.close();
+	return tam;
+}
+
+
+
+void GestorArchivo::clearFiles(const std::string & ip) {
+	if (searchIp(ip)) {
+		std::fstream File;
+		File.open(direcc + ip + "\\" + "ECGSig1.bin",std::ios::out |std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "ECGSig2.bin", std::ios::out |std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "ECGSig3.bin", std::ios::out | std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "RESPSign.bin", std::ios::out | std::ios::trunc);
+		File.close();
+		
+		File.open(direcc + ip + "\\" + "SPO2Sign.bin", std::ios::out |std::ios::trunc );
+		File.close();
+
+		File.open(direcc + ip + "\\" + "ROJASign.bin", std::ios::out |std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "AMARILLASign.bin", std::ios::out | std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "ECGPARAM.txt", std::ios::out | std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "IMPEPARAM.txt", std::ios::out | std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "ART.txt", std::ios::out | std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip +"\\" + "AP.txt", std::ios::out | std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "SPO2PARAM.txt", std::ios::out | std::ios::trunc);
+		File.close();
+
+
+		File.open(direcc + ip + "\\" + "TEMPPARAM.txt", std::ios::out | std::ios::trunc);
+		File.close();
+
+		File.open(direcc + ip + "\\" + "AlARMAMEN.txt", std::ios::out |std::ios::trunc);
+		File.close();
+	}
+}
+
+int GestorArchivo::sizeFile1(const std::string & filena) {
+	int tam = 0;
+	this->inEN.open(filena, std::ifstream::in);
 	if (!inEN.is_open()) {
 
 	}

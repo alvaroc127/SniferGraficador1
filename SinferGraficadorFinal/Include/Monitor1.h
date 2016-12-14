@@ -27,7 +27,7 @@ private:
 
 public:	
 
-	Monitor1(SQLHANDLE,SQLHANDLE,SQLHANDLE);
+	Monitor1(const SQLHANDLE &,const SQLHANDLE &, const SQLHANDLE &);
 	/// <summary>
 	/// Monitors the specified .
 	/// </summary>
@@ -141,20 +141,20 @@ public:
 	/// Sets the hande env.
 	/// </summary>
 	/// <param name="sql">The SQL.</param>
-	void setHandeEnv(SQLHANDLE );
+	void setHandeEnv(const SQLHANDLE  &);
 	
 	/// <summary>
 	/// Sets the hande con.
 	/// </summary>
 	/// <param name="">The .</param>
-	void setHandeCon(SQLHANDLE);
+	void setHandeCon(const SQLHANDLE &);
 
 	
 	/// <summary>
 	/// Sets the hande con.
 	/// </summary>
 	/// <param name="">The .</param>
-	void setHandeState(SQLHANDLE);
+	void setHandeState(const SQLHANDLE &);
 };
 
 #endif

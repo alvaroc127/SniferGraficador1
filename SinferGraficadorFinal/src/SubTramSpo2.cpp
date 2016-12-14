@@ -50,13 +50,6 @@ void SubTramSpo2::clasficaSubTra(const std::vector<uint8_t> &datas, int pos) {
 int SubTramSpo2::loadDato1(const std::vector<uint8_t> &datas,int pos) {
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->dato1 = (int)sal;
-	if (this->dato1>32768) {
-		dato1 =dato1 - 65536;
-		dato1 = dato1 / 100;
-	}
-	else {
-		dato1 = dato1 / 100;
-	}
 	return ++pos;
 
 }
@@ -64,13 +57,6 @@ int SubTramSpo2::loadDato1(const std::vector<uint8_t> &datas,int pos) {
 int SubTramSpo2::loadFrequency(const std::vector<uint8_t> &datas,int pos) {
 	uint16_t sal = (datas.at(pos++) << 8) | (datas.at(pos));
 	this->frecuencia = (int)sal;
-	if (this->frecuencia>32768) {
-		frecuencia = frecuencia - 65536;
-		frecuencia = frecuencia / 100;
-	}
-	else {
-		frecuencia = frecuencia / 100;
-	}
 	return ++pos;
 }
 

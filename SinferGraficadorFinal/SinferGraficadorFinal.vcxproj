@@ -128,6 +128,7 @@
   <ItemGroup>
     <ClCompile Include="Include\TemperaturaDB.cpp" />
     <ClCompile Include="src\AlarmaBD.cpp" />
+    <ClCompile Include="src\AlarmaIDBD.cpp" />
     <ClCompile Include="src\CapturaDeRed.cpp" />
     <ClCompile Include="src\Coneccion.cpp" />
     <ClCompile Include="src\Ecg.cpp" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\AlarmaBD.h" />
+    <ClInclude Include="Include\AlarmaIDBD.h" />
     <ClInclude Include="Include\CapturaDeRed.h" />
     <ClInclude Include="Include\Coneccion.h" />
     <ClInclude Include="Include\Ecg.h" />

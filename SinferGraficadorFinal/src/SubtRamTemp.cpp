@@ -66,10 +66,10 @@ int SubtRamTemp::loadT1(const std::vector<uint8_t> &datas,int pos) {
 	this->T1 = (int)sal;
 	if (this->T1>32768) {
 		this->T1 = this->T1 - 65536;
-		T1 = T1 / 100;
+		T1 = T1 / 10;
 	}
 	else {
-		T1 = T1 / 100;
+		T1 = T1 / 10;
 	}
 	return ++pos;
 }
@@ -79,10 +79,10 @@ int SubtRamTemp::loadT2(const std::vector<uint8_t> &datas, int pos) {
 	this->T2 = (int)sal;
 	if (this->T2>32768) {
 		T2 = T2 - 65536;
-		T2 = T2 / 100;
+		T2 = T2 / 10;
 	}
 	else {
-		T2 = T2 / 100;
+		T2 = T2 / 10;
 	}
 	return ++pos;
 }
@@ -92,10 +92,10 @@ int SubtRamTemp::loadTD(const std::vector<uint8_t> &datas, int pos) {
 	this->TD = (int)sal;
 	if (this->TD>32768) {
 		TD = TD - 65536;
-		TD = TD / 100;
+		TD = TD / 10;
 	}
 	else {
-		TD = TD / 100;
+		TD = TD / 10;
 	}
 	return ++pos;
 }

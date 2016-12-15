@@ -93,114 +93,53 @@ void Ecg::insertECG() {
 			}
 			sprintf_s(sqlupda, "id = %i AND HoraSenal = '%i/%i/%i %i:%i:%i.%i';", id, st.year, st.month, st.day, st.hour, st.minute, st.second, st.fraction);
 			
-			//if (aVR != 0) {
 				rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVR, sizeof(float), &a);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 1" << std::endl;
 				}
-			//}
-		//	else {
-		//		rc = SQLBindParameter(sqlstate, 1, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &a);
-			//	if (SQL_SUCCESS != rc) {
-			//		show_Error(SQL_HANDLE_STMT, sqlstate);
-				//	std::cout << "aqui  entro 1" << std::endl;
-			//	}
-			//}
-
-		//	if (aVL != 0) {
+	
 				rc = SQLBindParameter(sqlstate, 2, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &aVL, sizeof(float), &b);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 2" << std::endl;
 				}
-		//	}
-			//else {
-			//	rc = SQLBindParameter(sqlstate, 2, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &b);
-		//	//	if (SQL_SUCCESS != rc) {
-			//		show_Error(SQL_HANDLE_STMT, sqlstate);
-				//	std::cout << "aqui  entro 2" << std::endl;
-			//	}
-			//}
-
-			//if (fre_Card != 0) {
+	
 				rc = SQLBindParameter(sqlstate, 3, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &fre_Card, sizeof(float), &c);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 3" << std::endl;
 				}
-			//}
-			//else {
-		//	//	rc = SQLBindParameter(sqlstate, 3, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &c);
-			//	if (SQL_SUCCESS != rc) {
-				//	show_Error(SQL_HANDLE_STMT, sqlstate);
-				//	std::cout << "aqui  entro 3" << std::endl;
-				//}
-			//}
 
-		//	if (I != 0) {
+
+
 				rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &I, sizeof(float), &d);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 4" << std::endl;
 				}
-			//}
-			//else {
-				//rc = SQLBindParameter(sqlstate, 4, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &d);
-				//if (SQL_SUCCESS != rc) {
-				//	show_Error(SQL_HANDLE_STMT, sqlstate);
-				//	std::cout << "aqui  entro 4" << std::endl;
-				//}
-			//}
-
-		//	if ( II != 0) {
+		
 				rc = SQLBindParameter(sqlstate, 5, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &II, sizeof(float), &e);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 5" << std::endl;
 				}
-			//}
-			//else {
-			///	rc = SQLBindParameter(sqlstate, 5, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &e);
-			//	if (SQL_SUCCESS != rc) {
-			//		show_Error(SQL_HANDLE_STMT, sqlstate);
-			//		std::cout << "aqui  entro 5" << std::endl;
-				//}
-			
-			//}
-
-		//	if (III  != 0) {
+		
 				rc = SQLBindParameter(sqlstate, 6, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &III, sizeof(float), &f);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 6" << std::endl;
 				}
-			//}
-		//	else {
-			//	rc = SQLBindParameter(sqlstate, 6, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &f);
-			//	if (SQL_SUCCESS != rc) {
-				//	show_Error(SQL_HANDLE_STMT, sqlstate);
-			//		std::cout << "aqui  entro 6" << std::endl;
-			//	}
-			
-			
-			//}
 
-		//	if (V != 0) {
+
+
+
 				rc = SQLBindParameter(sqlstate, 7, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, &V, sizeof(float), &g);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 7" << std::endl;
 				}
-			//}
-		//	else {
-			//	rc = SQLBindParameter(sqlstate, 7, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 2, NULL, 0, &g);
-				//if (SQL_SUCCESS != rc) {
-				//	show_Error(SQL_HANDLE_STMT, sqlstate);
-				//	std::cout << "aqui  entro 7" << std::endl;
-			//	}
-			
-			//}
+	
 			if (ECG1.empty()==false) {
 				h = ECG1.size() - 1;
 				rc = SQLBindParameter(sqlstate, 8, SQL_PARAM_INPUT, SQL_C_BINARY, SQL_VARBINARY, 8000, 0, &ECG1[0], ECG1.size()-1, &h);
@@ -247,39 +186,20 @@ void Ecg::insertECG() {
 				}
 			}
 
-		///	if (aVF != 0) {
+
 				rc = SQLBindParameter(sqlstate, 11, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, &aVF, sizeof(float), &k);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 11" << std::endl;
 				}
-			//}
-		//	else {
-			//	rc = SQLBindParameter(sqlstate, 11, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, NULL,0, &k);
-				//if (SQL_SUCCESS != rc) {
-					//show_Error(SQL_HANDLE_STMT, sqlstate);
-					//std::cout << "aqui  entro 11" << std::endl;
-				//}
 			
-			//}
-
-			//if (CVP != 0) {
+		
 				rc = SQLBindParameter(sqlstate, 12, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, &CVP, sizeof(float), &l);
 				if (SQL_SUCCESS != rc) {
 					show_Error(SQL_HANDLE_STMT, sqlstate);
 					std::cout << "aqui  entro 12" << std::endl;
 				}
-			//}
-			//else {
-				//std::cout << "ALMACENA null" << std::endl;
-				//rc = SQLBindParameter(sqlstate, 12, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_FLOAT, sizeof(float), 3, NULL, 0, &l);
-				//if (SQL_SUCCESS != rc) {
-				//	show_Error(SQL_HANDLE_STMT, sqlstate);
-				//	std::cout << "aqui  entro 12" << std::endl;
-				//}
 			
-			//}
-
 			aux.append(sqlupda);
 		if (SQL_SUCCESS != SQLExecDirect(sqlstate, (SQLCHAR *)aux.c_str(), SQL_NTS)) {
 				show_Error(SQL_HANDLE_STMT, sqlstate);
@@ -387,9 +307,9 @@ void Ecg::readFileParam(const std::string  &ip) {
 	}
 	else {
 		while (!inFile.eof()) {
-			inFile >> aVR;
-				if (aVR != "") {
-					inFile >> aVL >> frecuencia >> I >> II >> III >> V >> CVP >> aVF;
+			inFile >> aVF;
+				if (aVF != "") {
+					inFile >> aVL >> aVR >> CVP >> frecuencia >> I >> II >> III >> V;
 				}
 		}
 		this->aVR = atof(aVR.c_str());

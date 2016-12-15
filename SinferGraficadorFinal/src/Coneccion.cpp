@@ -73,7 +73,6 @@ void Conection::setDate(const std::string   & date) {
 void Conection::loadDatTableMon() {
 	if (mon==NULL) {
 		mon = new Monitor1(sqlenvirot, sqlCon, sqlstate);
-		std::cout << "creo mon" << std::endl;
 	}
 	else {
 		mon->setHandeState(sqlstate);
@@ -204,7 +203,6 @@ void Conection::insertaDatTab() {
 					}
 					loadTable();
 					aidbd->insertAlarmaID();
-					std::cout << " NO existe esta insertando *******" << std::endl;
 					aidbd->Close();
 					open1 = false;
 					if (open1 == false) {
@@ -214,14 +212,9 @@ void Conection::insertaDatTab() {
 					abd->loadAlarm(mon, ecg,aidbd);
 					abd->insertarTbaAlarma(); 
 					abd->Close();
-					/*
-					posiblemente erlizar la validacion en la parte superior
-					*/
 					open1 = false;
-	
 				}
 				else {//el regitro exist
-					std::cout << "exsite insertando *******" << std::endl;
 					aidbd->Close();
 					open1 = false;
 					if (open1 == false) {
@@ -230,13 +223,8 @@ void Conection::insertaDatTab() {
 					loadTable();
 					abd->loadAlarm(mon, ecg,aidbd);
 					abd->insertarTbaAlarma();
-					std::cout << "inserto alarma *******" << std::endl;
 					abd->Close();
 					open1 = false;
-					/*
-					posiblemente erlizar la validacion en la parte superior
-					*/
-					
 				}
 			}
 			abd->clearMensajes();
@@ -250,9 +238,6 @@ void Conection::insertaDatTab() {
 
 void Conection::QueryMon() {
 	mon->queryMonitor();
-	std::cout << mon->getDate() <<"REGISTRO mON"<< std::endl;
-	std::cout << mon->getIp()<<"IP MON"<< std::endl;
-	std::cout << mon->getNumCam() << "num cam MOn" << std::endl;
 	mon->Close();
 	open1 = false;
 }
@@ -302,7 +287,6 @@ void Conection::setTimeStruc(const TIMESTAMP_STRUCT &st) {
 void Conection::loadTable() {
 	if (ecg == NULL) {
 		ecg = new Ecg(sqlenvirot, sqlCon, sqlstate);
-		std::cout << "creo ECG" << std::endl;
 	}
 	else {
 		ecg->setHandeState(sqlstate);

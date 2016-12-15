@@ -28,7 +28,6 @@ void Monitor1::queryMonitor() {
 	else {
 		char IP[64];
 		char Dat[64];
-		//SQLExecute(sqlstate);
 		while (SQLFetch(sqlstate)==SQL_SUCCESS) {
 			SQLGetData(sqlstate,1,SQL_C_ULONG,&this->id,sizeof(int),NULL);
 			SQLGetData(sqlstate,2,SQL_C_CHAR,IP,sizeof(IP),NULL);
@@ -66,26 +65,6 @@ void Monitor1::show_Error(unsigned int handle, const SQLHANDLE &han) {
 void Monitor1::Close() {
 	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
 	sqlstate = NULL;
-	/*
-	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlCon);
-	sqlCon = NULL;
-	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
-	sqlenvirot = NULL;
-	*/
-	/*
-	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
-	sqlstate = NULL;
-	SQLFreeStmt(sqlstate, SQL_CLOSE);
-	SQLFreeStmt(sqlstate, SQL_DROP);
-	SQLDisconnect(sqlCon);
-	SQLFreeConnect(sqlCon);
-	SQLFreeEnv(sqlenvirot);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlCon);
-	sqlCon = NULL;
-	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
-	sqlenvirot = NULL;
-	*/
 }
 
 

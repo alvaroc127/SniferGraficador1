@@ -43,25 +43,6 @@ void Ecg::show_Error(unsigned int handle, const SQLHANDLE &han) {
 void Ecg::Close() {
 	SQLFreeHandle(SQL_HANDLE_STMT,sqlstate);
 	sqlstate = NULL;
-	/*
-	SQLDisconnect(sqlCon);
-	SQLFreeHandle(SQL_HANDLE_DBC, sqlCon);
-	sqlCon = NULL;
-	SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
-		sqlenvirot = NULL;
-	*/
-	/*
-	RETCODE tc;
-	SQLFreeHandle(SQL_HANDLE_STMT, sqlstate);
-	sqlstate = NULL;
-	SQLFreeStmt(sqlstate,SQL_CLOSE);
-	SQLFreeStmt(sqlstate, SQL_DROP);
-	SQLDisconnect(sqlCon);
-	SQLFreeConnect(sqlCon);
-	SQLFreeEnv(sqlenvirot);
-	tc=SQLFreeHandle(SQL_HANDLE_ENV, sqlenvirot);
-	sqlenvirot = NULL;
-	*/
 }
 
 
